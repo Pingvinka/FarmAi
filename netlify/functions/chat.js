@@ -43,7 +43,7 @@ exports.handler = async function (event) {
                 'X-Title': 'FarmAi'
             },
             body: JSON.stringify({
-                model: 'qwen/qwen3-next-80b-a3b-instruct:free',
+                model: 'openrouter/free',
                 messages: [
                     {
                         role: 'system',
