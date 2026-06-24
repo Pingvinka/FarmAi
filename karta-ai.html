@@ -46,7 +46,7 @@
                 🤖
             </div>
             <div>
-                <div style="font-weight: 600; font-size: 14px; color: #4a148c;">ИИ-консультант (Qwen)</div>
+                <div style="font-weight: 600; font-size: 14px; color: #4a148c;">ИИ-консультант</div>
                 <div style="font-size: 11px; color: #94a3b8;">онлайн • отвечает на вопросы о здоровье животных</div>
             </div>
             <div style="margin-left: auto; display: flex; gap: 4px;">
@@ -232,13 +232,16 @@
     resizeAndDraw();
 
     // ============================================================
-    // 4. КРАСИВЫЙ ЧАТ С РЕАЛЬНЫМ ИИ (С ПОЛНЫМ КОНТЕКСТОМ)
+    // 4. КРАСИВЫЙ ЧАТ С РЕАЛЬНЫМ ИИ (С ПОЛНЫМ КОНТЕКСТОМ И ПАМЯТЬЮ)
     // ============================================================
     const chatMessages = document.getElementById('chatMessages');
     const chatInput = document.getElementById('chatInput');
     const sendBtn = document.getElementById('sendBtn');
 
-    // Функция добавления сообщения
+    // 📜 ИСТОРИЯ СООБЩЕНИЙ (хранит до 5 последних)
+    let chatHistory = [];
+
+    // Функция добавления сообщения в интерфейс и в историю
     function addMessage(text, sender) {
         const now = new Date();
         const time = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
@@ -270,6 +273,12 @@
 
         chatMessages.appendChild(msgDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // ➕ Сохраняем в историю (храним только последние 5)
+        chatHistory.push({ role: sender === 'user' ? 'user' : 'assistant', content: text });
+        if (chatHistory.length > 5) {
+            chatHistory = chatHistory.slice(-5);
+        }
     }
 
     // Индикатор набора
@@ -294,12 +303,13 @@
     }
 
     // ============================================================
-    // ОТПРАВКА ЗАПРОСА С ПОЛНЫМ КОНТЕКСТОМ
+    // ОТПРАВКА ЗАПРОСА С ПОЛНЫМ КОНТЕКСТОМ + ИСТОРИЕЙ
     // ============================================================
     async function handleSend() {
         const text = chatInput.value.trim();
         if (!text) return;
 
+        // Добавляем сообщение пользователя сразу
         addMessage(text, 'user');
         chatInput.value = '';
 
@@ -332,7 +342,7 @@
             contextText += '\nКалендарь прививок: нет данных\n';
         }
 
-        // 🩺 ДОБАВЛЯЕМ ИНТЕРПРЕТАЦИЮ СИМПТОМОВ
+        // 🩺 Интерпретация симптомов
         contextText += `
             \n⚠️ ВЕТЕРИНАРНАЯ ИНТЕРПРЕТАЦИЯ СИМПТОМОВ:
             - Повышенная температура (выше 39.3°C) может указывать на воспалительный процесс, инфекцию или мастит.
@@ -343,7 +353,18 @@
             - При любых отклонениях рекомендуется обратиться к ветеринару для точной диагностики.
         `;
 
+        // 📜 Формируем историю для отправки
+        let historyForAI = '';
+        if (chatHistory.length > 0) {
+            historyForAI = '\n\nПРЕДЫДУЩИЙ ДИАЛОГ (для контекста):\n';
+            chatHistory.forEach(msg => {
+                const role = msg.role === 'user' ? 'Пользователь' : 'Ассистент (вы)';
+                historyForAI += `${role}: ${msg.content}\n`;
+            });
+        }
+
         console.log('📋 Контекст для ИИ:', contextText);
+        console.log('📜 История:', historyForAI);
 
         try {
             const response = await fetch('/.netlify/functions/chat', {
@@ -351,7 +372,7 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     message: text,
-                    context: contextText
+                    context: contextText + historyForAI
                 })
             });
 
@@ -369,7 +390,6 @@
         }
     }
 
-
     sendBtn.addEventListener('click', handleSend);
     chatInput.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') handleSend();
@@ -377,8 +397,43 @@
 
     // Приветственное сообщение
     if (chatMessages.children.length === 0) {
-        addMessage(animal.welcome || 'Здравствуйте! Я ИИ-консультант. Я знаю всё об этом животном. Задайте вопрос о его здоровье, возрасте, прививках или рационе.', 'bot');
+        const welcomeMsg = animal.welcome || 'Здравствуйте! Я ИИ-консультант. Я знаю всё об этом животном. Задайте вопрос о его здоровье, возрасте, прививках или рационе.';
+        // Добавляем приветствие в интерфейс и в историю
+        const now = new Date();
+        const time = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+
+        const msgDiv = document.createElement('div');
+        msgDiv.className = 'chat-msg bot';
+
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar';
+        avatar.textContent = '🤖';
+
+        const bubbleWrap = document.createElement('div');
+        bubbleWrap.style.display = 'flex';
+        bubbleWrap.style.flexDirection = 'column';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubble.textContent = welcomeMsg;
+
+        const timeSpan = document.createElement('div');
+        timeSpan.className = 'time';
+        timeSpan.textContent = time;
+
+        bubbleWrap.appendChild(bubble);
+        bubbleWrap.appendChild(timeSpan);
+
+        msgDiv.appendChild(avatar);
+        msgDiv.appendChild(bubbleWrap);
+
+        chatMessages.appendChild(msgDiv);
+
+        // Сохраняем приветствие в историю
+        chatHistory.push({ role: 'assistant', content: welcomeMsg });
     }
+
+    
 
     // ============================================================
     // 5. ЗАБОРЧИК
