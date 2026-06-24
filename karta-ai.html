@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> ФермAi — Карточка здоровья (ИИ)</title>
+    <title>Глаз фермы — Карточка здоровья (ИИ)</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <div class="app">
     <header class="header">
-        <div class="logo"> ФермAi <span>Beta</span><span class="ai-badge">🤖 ИИ</span></div>
+        <div class="logo">👁️ Глаз фермы <span>Beta</span><span class="ai-badge">🤖 ИИ</span></div>
         <div class="header-right">
             <a href="dashboard-ai.html">Главная</a>
             <a href="dnevnik-ai.html">Дневник стада</a>
@@ -19,31 +19,34 @@
         </div>
     </header>
 
+    <!-- КАРТОЧКА В СТИЛЕ ТЕТРАДИ -->
     <div class="notebook-page" id="healthPage">
-        <div id="cardContent"><div style="text-align:center;padding:40px 0;color:#94a3b8;">Загрузка...</div></div>
+        <div id="cardContent">
+            <div style="text-align:center;padding:40px 0;color:#94a3b8;">Загрузка...</div>
+        </div>
     </div>
 
+    <!-- ГРАФИК -->
     <div class="notebook-page" id="graphPage">
         <h3 style="font-size:16px;color:#475569;margin-bottom:6px;">📈 Активность за неделю</h3>
         <div class="graph-wrap"><canvas id="activityChart"></canvas></div>
     </div>
 
+    <!-- ПРОГНОЗ -->
     <div class="notebook-page" id="forecastPage" style="background:#faf8f2;">
         <h3 style="font-size:16px;color:#475569;margin-bottom:6px;">🤖 Прогноз ИИ (на 3 дня)</h3>
         <ul class="forecast-list" id="forecastList"></ul>
     </div>
 
-    <!-- ============================================================ -->
-    <!-- ЧАТ С ИИ-КОНСУЛЬТАНТОМ (красивая версия) -->
-    <!-- ============================================================ -->
-    <div style="margin-top: 16px; background: white; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.04); border: 1px solid #e8e0d0; overflow: hidden;">
+    <!-- КРАСИВЫЙ ЧАТ С РЕАЛЬНЫМ ИИ -->
+    <div style="margin-top:16px; background: white; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.04); border: 1px solid #e8e0d0; overflow: hidden;">
         <!-- Шапка чата -->
         <div style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: #f1f8e9; border-bottom: 1px solid #e8e0d0;">
-            <div style="width: 32px; height: 32px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; color: white;">
+            <div style="width: 32px; height: 32px; background: #7b1fa2; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; color: white;">
                 🤖
             </div>
             <div>
-                <div style="font-weight: 600; font-size: 14px; color: var(--primary);">ИИ-консультант</div>
+                <div style="font-weight: 600; font-size: 14px; color: #4a148c;">ИИ-консультант (Qwen)</div>
                 <div style="font-size: 11px; color: #94a3b8;">онлайн • отвечает на вопросы о здоровье животных</div>
             </div>
             <div style="margin-left: auto; display: flex; gap: 4px;">
@@ -53,15 +56,15 @@
         </div>
 
         <!-- Область сообщений -->
-        <div class="chat-messages" id="chatMessages" style="max-height: 260px; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: #faf8f2;">
+        <div class="chat-messages" id="chatMessages" style="max-height: 280px; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: #faf8f2;">
             <!-- Сообщения вставляются через JS -->
         </div>
 
         <!-- Поле ввода -->
         <div style="display: flex; gap: 8px; padding: 12px 16px; background: white; border-top: 1px solid #e8e0d0;">
             <input type="text" id="chatInput" placeholder="Напишите вопрос о животном..." style="flex: 1; padding: 10px 16px; border: 1px solid #e8e0d0; border-radius: 40px; outline: none; font-size: 14px; background: #f8faf8; transition: 0.2s;">
-            <button id="sendBtn" style="background: var(--primary); color: white; border: none; padding: 10px 24px; border-radius: 40px; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.2s; display: flex; align-items: center; gap: 6px;">
-                <span>📤</span> Отправить
+            <button id="sendBtn" style="background: #7b1fa2; color: white; border: none; padding: 10px 24px; border-radius: 40px; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.2s; display: flex; align-items: center; gap: 6px;">
+                <span>📤</span> Спросить ИИ
             </button>
         </div>
     </div>
@@ -71,7 +74,9 @@
 
 <script src="js/animals.js"></script>
 <script>
-    // ===== 1. ЗАГРУЗКА =====
+    // ============================================================
+    // 1. ЗАГРУЗКА ДАННЫХ
+    // ============================================================
     const urlParams = new URLSearchParams(window.location.search);
     const animalId = urlParams.get('id') || '1';
     const animal = animals[animalId];
@@ -90,7 +95,9 @@
         throw new Error('Empty card');
     }
 
-    // ===== 2. ЗАПОЛНЕНИЕ =====
+    // ============================================================
+    // 2. ЗАПОЛНЕНИЕ КАРТОЧКИ
+    // ============================================================
     const statusMap = {
         'critical': { cls: 'badge-red', text: animal.statusText },
         'risk': { cls: 'badge-yellow', text: animal.statusText },
@@ -128,12 +135,12 @@
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;">
             <div style="border:1px solid #d1c4e9;padding:12px;border-radius:8px;background:rgba(255,255,255,0.5);">
-                <h4 style="font-size:14px;color:#4a148c;">Калькулятор беременности</h4>
+                <h4 style="font-size:14px;color:#4a148c;">🤰 Калькулятор беременности</h4>
                 <p style="font-size:12px;color:#94a3b8;margin:4px 0;">Рассчитайте дату родов по дате случки</p>
                 <button class="btn btn-secondary" style="font-size:12px;padding:4px 14px;" onclick="alert('В бета-версии эта функция не работает')">Открыть</button>
             </div>
             <div style="border:1px solid #d1c4e9;padding:12px;border-radius:8px;background:rgba(255,255,255,0.5);">
-                <h4 style="font-size:14px;color:#4a148c;">Калькулятор кормов</h4>
+                <h4 style="font-size:14px;color:#4a148c;">🌾 Калькулятор кормов</h4>
                 <p style="font-size:12px;color:#94a3b8;margin:4px 0;">Рассчитайте суточный рацион по весу</p>
                 <button class="btn btn-secondary" style="font-size:12px;padding:4px 14px;" onclick="alert('В бета-версии эта функция не работает')">Открыть</button>
             </div>
@@ -168,7 +175,9 @@
         });
     }
 
-    // ГРАФИК
+    // ============================================================
+    // 3. ГРАФИК
+    // ============================================================
     const canvas = document.getElementById('activityChart');
     const ctx = canvas.getContext('2d');
     const data = animal.graphData || [50, 55, 60, 65, 70, 75, 80];
@@ -223,13 +232,13 @@
     resizeAndDraw();
 
     // ============================================================
-    // КРАСИВЫЙ ЧАТ С РЕАЛЬНЫМ ИИ
+    // 4. КРАСИВЫЙ ЧАТ С РЕАЛЬНЫМ ИИ (С ПОЛНЫМ КОНТЕКСТОМ)
     // ============================================================
     const chatMessages = document.getElementById('chatMessages');
     const chatInput = document.getElementById('chatInput');
     const sendBtn = document.getElementById('sendBtn');
 
-    // Та же функция addMessage (как выше)
+    // Функция добавления сообщения
     function addMessage(text, sender) {
         const now = new Date();
         const time = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
@@ -263,6 +272,7 @@
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
+    // Индикатор набора
     function showTyping() {
         const typing = document.createElement('div');
         typing.className = 'chat-typing';
@@ -283,6 +293,9 @@
         if (typing) typing.remove();
     }
 
+    // ============================================================
+    // ОТПРАВКА ЗАПРОСА С ПОЛНЫМ КОНТЕКСТОМ
+    // ============================================================
     async function handleSend() {
         const text = chatInput.value.trim();
         if (!text) return;
@@ -292,13 +305,42 @@
 
         showTyping();
 
+        // 🐄 Формируем ПОЛНЫЙ контекст о животном
+        let contextText = `
+            Животное: ${animal.name}
+            Порода: ${animal.breed}
+            Возраст: ${animal.age}
+            Вес: ${animal.weight}
+            Рост: ${animal.height}
+            Статус: ${animal.statusText}
+            Температура: ${animal.temp}
+            Активность: ${animal.activity}
+            Аппетит: ${animal.appetite}
+            Руминация: ${animal.rumination}
+            Последний отёл/окот: ${animal.lastCalving || 'нет данных'}
+            Прогноз следующего отёла/окота: ${animal.nextCalving || 'нет данных'}
+        `;
+
+        // ➕ Добавляем список прививок, если они есть
+        if (animal.vaccinations && animal.vaccinations.length > 0) {
+            contextText += '\nКалендарь прививок:\n';
+            animal.vaccinations.forEach(v => {
+                const status = v.next ? ' (ПЛАНОВАЯ)' : '';
+                contextText += `- ${v.name}: ${v.date}${status}\n`;
+            });
+        } else {
+            contextText += '\nКалендарь прививок: нет данных\n';
+        }
+
+        console.log('📋 Контекст для ИИ:', contextText);
+
         try {
             const response = await fetch('/.netlify/functions/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     message: text,
-                    context: `Животное: ${animal.name}, порода: ${animal.breed}, статус: ${animal.statusText}, температура: ${animal.temp}, активность: ${animal.activity}, аппетит: ${animal.appetite}, руминация: ${animal.rumination}.`
+                    context: contextText
                 })
             });
 
@@ -321,12 +363,14 @@
         if (e.key === 'Enter') handleSend();
     });
 
-    // Приветствие
+    // Приветственное сообщение
     if (chatMessages.children.length === 0) {
-        addMessage(animal.welcome || 'Здравствуйте! Я ИИ-консультант. Задайте вопрос о животном.', 'bot');
+        addMessage(animal.welcome || 'Здравствуйте! Я ИИ-консультант. Я знаю всё об этом животном. Задайте вопрос о его здоровье, возрасте, прививках или рационе.', 'bot');
     }
 
-    // ЗАБОРЧИК
+    // ============================================================
+    // 5. ЗАБОРЧИК
+    // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
         const fence = document.querySelector('.fence-footer');
         if (!fence) return;

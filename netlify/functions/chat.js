@@ -32,6 +32,7 @@ exports.handler = async function (event) {
 
         console.log('✅ OPENROUTER_TOKEN найден, длина:', apiKey.length);
         console.log('💬 Вопрос пользователя:', message);
+        console.log('📋 Контекст от клиента:', context);
 
         const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
             method: 'POST',
@@ -42,20 +43,23 @@ exports.handler = async function (event) {
                 'X-Title': 'FarmAi'
             },
             body: JSON.stringify({
-                // ✅ Фиксируем рабочую модель
                 model: 'nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free',
                 messages: [
                     {
                         role: 'system',
-                        content: `Вы профессиональный ветеринарный консультант системы "FarmAi". Отвечайте кратко, по делу, на русском языке. Контекст о животном: ${context || 'нет данных'}`
+                        content: `Вы профессиональный ветеринарный консультант системы "FarmAi". 
+                        Вы обладаете полной информацией о животном, которая передаётся в контексте. 
+                        Отвечайте кратко, по делу, ТОЛЬКО НА РУССКОМ ЯЗЫКЕ. 
+                        Если пользователь спрашивает о возрасте, породе, весе, прививках или других параметрах — используйте информацию из контекста. 
+                        Если в контексте нет данных — честно скажите, что информации нет.`
                     },
                     {
                         role: 'user',
-                        content: message
+                        content: `Контекст о животном:\n${context || 'нет данных'}\n\nВопрос пользователя: ${message}`
                     }
                 ],
                 temperature: 0.7,
-                max_tokens: 300
+                max_tokens: 350
             })
         });
 
