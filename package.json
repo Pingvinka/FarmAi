@@ -1,0 +1,12 @@
+{
+  "name": "glaz-fermy",
+  "version": "1.0.0",
+  "description": "Цифровой помощник для фермера",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'Build complete'"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  }
+}
