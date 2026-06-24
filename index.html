@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход — ФермAi</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 80px);
+            padding: 20px;
+        }
+        .login-card {
+            max-width: 420px;
+            width: 100%;
+            background: white;
+            padding: 35px 28px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        .login-card h2 { margin: 12px 0 6px; color: var(--primary); }
+        .login-card .sub { color: #666; margin-bottom: 25px; }
+        .form-group { text-align: left; margin-bottom: 16px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; }
+        .form-group input { width: 100%; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; outline: none; font-size: 0.95rem; }
+        .btn { display: block; width: 100%; padding: 12px; border-radius: 8px; border: none; font-size: 0.95rem; font-weight: bold; cursor: pointer; text-decoration: none; text-align: center; margin-bottom: 12px; transition: all 0.2s; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-light); }
+        .btn-demo { background: #eceff1; color: #37474f; }
+        .btn-demo:hover { background: #cfd8dc; }
+        .btn-ai { background: #7b1fa2; color: white; }
+        .btn-ai:hover { background: #8e24aa; }
+        .divider { margin: 18px 0; color: #888; position: relative; font-size: 0.9rem; }
+        .divider::before, .divider::after { content: ''; position: absolute; top: 50%; width: 40%; height: 1px; background: var(--border); }
+        .divider::before { left: 0; }
+        .divider::after { right: 0; }
+        .login-note { font-size: 0.75rem; color: #888; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div class="login-wrapper">
+    <div class="login-card">
+        <div style="font-size: 3rem;">🌾</div>
+        <h2> ФермAi </h2>
+        <p class="sub">Интеллектуальная система мониторинга стада</p>
+
+        <form onsubmit="event.preventDefault(); window.location.href='dashboard.html';">
+            <div class="form-group">
+                <label>Электронная почта</label>
+                <input type="email" value="demo@glazfermy.ru" required>
+            </div>
+            <div class="form-group">
+                <label>Пароль</label>
+                <input type="password" value="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Войти в панель</button>
+        </form>
+
+        <div class="divider">или</div>
+
+        <a href="dashboard.html" class="btn btn-demo">🚀 Бета-версия (Имитация)</a>
+        <a href="dashboard-ai.html" class="btn btn-ai">🤖 Бета-версия + Реальный ИИ</a>
+        <p class="login-note">* ИИ-версия может требовать активного VPN для пользователей из РФ.</p>
+    </div>
+</div>
+
+<div class="fence-footer"></div>
+
+<script>
+    // ЗАБОРЧИК
+    document.addEventListener('DOMContentLoaded', function() {
+        const fence = document.querySelector('.fence-footer');
+        if (!fence) return;
+        const old = fence.querySelector('.picket-fence');
+        if (old) old.remove();
+        const container = document.createElement('div');
+        container.className = 'picket-fence';
+        const count = Math.max(12, Math.floor(window.innerWidth / 30));
+        for (let i = 0; i < count; i++) {
+            const picket = document.createElement('div');
+            picket.className = 'picket';
+            if (i % 5 === 2) picket.style.transform = 'rotate(2deg)';
+            if (i % 7 === 3) picket.style.transform = 'rotate(-3deg)';
+            container.appendChild(picket);
+        }
+        fence.appendChild(container);
+    });
+</script>
+
+</body>
+</html>

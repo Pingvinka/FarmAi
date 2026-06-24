@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> ФермAi — Дневник стада</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app">
+    <header class="header">
+        <div class="logo"> ФермAi <span>Beta</span></div>
+        <div class="header-right">
+            <a href="dashboard.html">Главная</a>
+            <a href="dnevnik.html" class="active">Дневник стада</a>
+            <a href="otchety.html">Отчёты</a>
+            <a href="profile.html">Профиль</a>
+        </div>
+    </header>
+
+    <div class="filters" id="filters">
+        <div class="filter-group">
+            <span class="label">🐾 Вид:</span>
+            <button class="active" data-filter="all">Все</button>
+            <button data-filter="cow">🐄 КРС</button>
+            <button data-filter="goat">🐐 Козы</button>
+            <button data-filter="horse">🐴 Лошади</button>
+        </div>
+        <div class="filter-status-group">
+            <span class="label">Статус:</span>
+            <button data-filter="healthy">🟢 Здоровы</button>
+            <button data-filter="risk">🟡 Риск</button>
+            <button data-filter="critical">🔴 Критично</button>
+        </div>
+    </div>
+
+    <div class="diary-grid" id="animalGrid">
+        <!-- Сюда будут вставлены карточки -->
+    </div>
+</div>
+
+<div class="toast" id="toast">Доступен просмотр только первых 4 карточек</div>
+
+<div class="fence-footer"></div>
+
+<script src="js/animals.js"></script>
+<script>
+    // ============================================================
+    // ОТЛАДКА: проверяем, загрузился ли animals
+    // ============================================================
+    console.log('animals загружен?', typeof animals !== 'undefined');
+
+    if (typeof animals === 'undefined') {
+        document.getElementById('animalGrid').innerHTML = `
+            <div style="grid-column:1/-1;text-align:center;padding:40px;color:#ef4444;">
+                ❌ Ошибка: база данных не загружена. Проверьте файл js/animals.js
+            </div>
+        `;
+        throw new Error('animals не загружен');
+    }
+
+    // ============================================================
+    // ОСНОВНАЯ ЛОГИКА
+    // ============================================================
+    const grid = document.getElementById('animalGrid');
+    const toast = document.getElementById('toast');
+
+    const order = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+    let currentSpecies = 'all';
+    let currentStatus = 'all';
+
+    function renderDiary() {
+        grid.innerHTML = '';
+
+        console.log('Фильтр: вид=' + currentSpecies + ', статус=' + currentStatus);
+
+        // Фильтрация по виду
+        let filteredIds = order.filter(id => {
+            const animal = animals[id];
+            if (!animal) {
+                console.warn('Животное с ID ' + id + ' не найдено');
+                return false;
+            }
+
+            if (currentSpecies === 'all') return true;
+
+            // Для пустых карточек проверяем их type
+            if (animal.empty) {
+                return animal.type === currentSpecies;
+            }
+
+            return animal.type === currentSpecies;
+        });
+
+        console.log('После фильтра по виду:', filteredIds);
+
+        // Фильтрация по статусу
+        if (currentStatus !== 'all') {
+            filteredIds = filteredIds.filter(id => {
+                const animal = animals[id];
+                if (animal.empty) return true;
+                return animal.status === currentStatus;
+            });
+        }
+
+        console.log('После фильтра по статусу:', filteredIds);
+
+        if (filteredIds.length === 0) {
+            grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:#94a3b8;">Нет животных, соответствующих фильтру</div>`;
+            return;
+        }
+
+        // Рендерим карточки
+        filteredIds.forEach(id => {
+            const animal = animals[id];
+            if (!animal) return;
+
+            const card = document.createElement('div');
+            card.className = `diary-card ${animal.empty ? 'disabled' : ''}`;
+
+            if (animal.empty) {
+                card.innerHTML = `
+                    <div class="top">
+                        <span class="id">${animal.emoji} №${id} <span class="lock-icon">🔒</span></span>
+                        <span class="status">⏳ В разработке</span>
+                    </div>
+                    <div class="info">
+                        <span>${animal.breed}</span>
+                        <span>?</span>
+                    </div>
+                    <div class="extra" style="color:#94a3b8;">Данные будут доступны позже</div>
+                `;
+                card.onclick = () => {
+                    toast.textContent = 'Доступен просмотр только первых 4 карточек';
+                    toast.classList.add('show');
+                    clearTimeout(toast._timeout);
+                    toast._timeout = setTimeout(() => toast.classList.remove('show'), 3000);
+                };
+            } else {
+                const statusMap = {
+                    'critical': { cls: 'critical', text: '🔴 Срочно' },
+                    'risk': { cls: 'risk', text: '🟡 Наблюдение' },
+                    'healthy': { cls: '', text: '🟢 Здорова' }
+                };
+                const s = statusMap[animal.status] || statusMap.healthy;
+
+                card.innerHTML = `
+                    <div class="top">
+                        <span class="id">${animal.emoji} №${id}</span>
+                        <span class="status ${s.cls}">${s.text}</span>
+                    </div>
+                    <div class="info">
+                        <span>${animal.breed}</span>
+                        <span>${animal.age}</span>
+                    </div>
+                    <div class="extra" style="color:${animal.status === 'critical' ? '#ef4444' : animal.status === 'risk' ? '#eab308' : '#22c55e'}">
+                        ${animal.status === 'critical' ? `Темп. ${animal.temp} · ${animal.forecast?.[0]?.text?.slice(0, 25) || 'Требует осмотра'}` :
+                         animal.status === 'risk' ? animal.forecast?.[0]?.text?.slice(0, 30) || 'Требуется наблюдение' :
+                         'Активность в норме'}
+                    </div>
+                `;
+                card.onclick = () => window.location.href = `karta.html?id=${id}`;
+            }
+
+            grid.appendChild(card);
+        });
+    }
+
+    // ============================================================
+    // ФИЛЬТРАЦИЯ
+    // ============================================================
+    const filterButtons = document.querySelectorAll('.filters button');
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const isSpecies = ['all', 'cow', 'goat', 'horse'].includes(btn.dataset.filter);
+            const isStatus = ['healthy', 'risk', 'critical'].includes(btn.dataset.filter);
+
+            if (isSpecies) {
+                document.querySelectorAll('.filter-group button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentSpecies = btn.dataset.filter;
+            } else if (isStatus) {
+                document.querySelectorAll('.filter-status-group button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentStatus = btn.dataset.filter;
+            }
+
+            renderDiary();
+        });
+    });
+
+    // ============================================================
+    // ЗАБОРЧИК
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        const fence = document.querySelector('.fence-footer');
+        if (!fence) return;
+        const old = fence.querySelector('.picket-fence');
+        if (old) old.remove();
+        const container = document.createElement('div');
+        container.className = 'picket-fence';
+        const count = Math.max(12, Math.floor(window.innerWidth / 30));
+        for (let i = 0; i < count; i++) {
+            const picket = document.createElement('div');
+            picket.className = 'picket';
+            if (i % 5 === 2) picket.style.transform = 'rotate(2deg)';
+            if (i % 7 === 3) picket.style.transform = 'rotate(-3deg)';
+            container.appendChild(picket);
+        }
+        fence.appendChild(container);
+    });
+
+    // ============================================================
+    // ПЕРВЫЙ РЕНДЕРИНГ
+    // ============================================================
+    renderDiary();
+</script>
+
+</body>
+</html>
