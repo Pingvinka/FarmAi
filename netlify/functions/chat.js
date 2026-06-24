@@ -31,7 +31,9 @@ exports.handler = async function (event) {
         }
 
         console.log('✅ OPENROUTER_TOKEN найден, длина:', apiKey.length);
+        console.log('💬 Вопрос пользователя:', message);
 
+        // ✅ Используем бесплатную модель Qwen
         const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
             method: 'POST',
             headers: {
@@ -41,11 +43,11 @@ exports.handler = async function (event) {
                 'X-Title': 'FarmAi'
             },
             body: JSON.stringify({
-                model: 'microsoft/phi-3.5-mini-instruct',  // ✅ ИСПРАВЛЕНО!
+                model: 'qwen/qwen3-next-80b-a3b-instruct:free',
                 messages: [
                     {
                         role: 'system',
-                        content: `Вы ветеринарный консультант системы "FarmAi". Отвечайте кратко на русском языке. Контекст о животном: ${context || 'нет данных'}`
+                        content: `Вы профессиональный ветеринарный консультант системы "FarmAi". Отвечайте кратко, по делу, на русском языке. Контекст о животном: ${context || 'нет данных'}`
                     },
                     {
                         role: 'user',
@@ -53,7 +55,7 @@ exports.handler = async function (event) {
                     }
                 ],
                 temperature: 0.7,
-                max_tokens: 200
+                max_tokens: 300
             })
         });
 
