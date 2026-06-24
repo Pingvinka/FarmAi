@@ -52,9 +52,8 @@ ${message}<|im_end|>
 
         console.log('🔄 Отправляем запрос в Hugging Face...');
 
-        // 4. Отправляем запрос
         const response = await fetch(
-            'https://router.huggingface.co/hf-inference/models/Qwen/Qwen2.5-1.5B-Instruct',
+            'https://api-inference.huggingface.co/models/microsoft/Phi-3.5-mini-instruct',
             {
                 method: 'POST',
                 headers: {
