@@ -1,7 +1,6 @@
 const fetch = require('node-fetch');
 
 exports.handler = async function (event) {
-    // Разрешаем только POST
     if (event.httpMethod !== 'POST') {
         return {
             statusCode: 405,
@@ -10,7 +9,6 @@ exports.handler = async function (event) {
     }
 
     try {
-        // 1. Получаем данные
         const { message, context } = JSON.parse(event.body);
 
         if (!message) {
@@ -20,7 +18,6 @@ exports.handler = async function (event) {
             };
         }
 
-        // 2. Проверяем токен OpenRouter
         const apiKey = process.env.OPENROUTER_TOKEN;
 
         if (!apiKey) {
@@ -35,19 +32,16 @@ exports.handler = async function (event) {
 
         console.log('✅ OPENROUTER_TOKEN найден, длина:', apiKey.length);
 
-        // 3. Формируем запрос к OpenRouter
-        // ⚠️ ВАЖНО: Все заголовки должны быть на латинице!
         const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${apiKey}`,
                 'Content-Type': 'application/json',
-                // ⚠️ HTTP-Referer и X-Title должны содержать только ASCII-символы!
                 'HTTP-Referer': 'https://farmai.netlify.app',
-                'X-Title': 'FarmAi'  // ✅ Только латиница!
+                'X-Title': 'FarmAi'
             },
             body: JSON.stringify({
-                model: 'qwen/qwen-2.5-3b-instruct',
+                model: 'microsoft/phi-3.5-mini-instruct',  // ✅ ИСПРАВЛЕНО!
                 messages: [
                     {
                         role: 'system',
@@ -63,7 +57,6 @@ exports.handler = async function (event) {
             })
         });
 
-        // 4. Проверяем ответ
         if (!response.ok) {
             const errorText = await response.text();
             console.error('❌ Ошибка OpenRouter:', response.status, errorText);
@@ -79,7 +72,6 @@ exports.handler = async function (event) {
 
         const data = await response.json();
 
-        // 5. Извлекаем ответ
         let reply = 'Извините, я не смог обработать ваш запрос.';
         if (data.choices && data.choices[0] && data.choices[0].message) {
             reply = data.choices[0].message.content;
@@ -88,7 +80,6 @@ exports.handler = async function (event) {
             console.log('⚠️ Неожиданный формат ответа:', JSON.stringify(data));
         }
 
-        // 6. Возвращаем ответ
         return {
             statusCode: 200,
             headers: { 'Content-Type': 'application/json' },
