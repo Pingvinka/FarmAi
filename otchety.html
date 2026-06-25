@@ -88,31 +88,6 @@
                 grid-template-columns: 1fr;
             }
         }
-        .heatmap-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-top: 12px;
-        }
-        .heatmap-item {
-            padding: 16px;
-            border-radius: 12px;
-            text-align: center;
-            border: 2px solid #e8e0d0;
-            transition: 0.2s;
-        }
-        .heatmap-item:hover {
-            transform: scale(1.02);
-        }
-        .heatmap-item .emoji { font-size: 28px; }
-        .heatmap-item .name { font-weight: 600; margin-top: 4px; }
-        .heatmap-item .temp { font-size: 18px; font-weight: 700; }
-        .heatmap-item .location { font-size: 12px; color: #64748b; }
-        @media (max-width: 600px) {
-            .heatmap-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
         .yield-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -180,7 +155,7 @@
             </div>
         </div>
 
-        <!-- ===== БЛОК 2: КРУГОВЫЕ ДИАГРАММЫ (СТАТУС + ЗВУКИ) в одну строку ===== -->
+        <!-- ===== БЛОК 2: КРУГОВЫЕ ДИАГРАММЫ (СТАТУС + ПОВЕДЕНИЕ) в одну строку ===== -->
         <div class="notebook-page">
             <div class="chart-row">
                 <div class="chart-col">
@@ -210,26 +185,34 @@
                     </div>
                 </div>
                 <div class="chart-col">
-                    <h3 style="font-size: 16px; color: #475569; margin-bottom: 10px;">🎤 Типы звуков (за неделю)</h3>
+                    <h3 style="font-size: 16px; color: #475569; margin-bottom: 10px;">🐄 Поведенческие активности (за неделю)</h3>
                     <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center;">
                         <div style="flex: 1; min-width: 160px; max-width: 250px;">
-                            <canvas id="soundChart" style="width: 100%; height: 180px;"></canvas>
+                            <canvas id="behaviorChart" style="width: 100%; height: 180px;"></canvas>
                         </div>
                         <div style="flex: 1; min-width: 120px; font-size: 13px;">
-                            <div><span style="display:inline-block;width:10px;height:10px;background:#4caf50;border-radius:50%;"></span> Норма — 65%</div>
-                            <div><span style="display:inline-block;width:10px;height:10px;background:#ff9800;border-radius:50%;"></span> Стресс — 22%</div>
-                            <div><span style="display:inline-block;width:10px;height:10px;background:#f44336;border-radius:50%;"></span> Кашель — 13%</div>
+                            <div><span style="display:inline-block;width:10px;height:10px;background:#4caf50;border-radius:50%;"></span> RES — 28%</div>
+                            <div><span style="display:inline-block;width:10px;height:10px;background:#2196f3;border-radius:50%;"></span> RUS — 22%</div>
+                            <div><span style="display:inline-block;width:10px;height:10px;background:#ff9800;border-radius:50%;"></span> REL — 18%</div>
+                            <div><span style="display:inline-block;width:10px;height:10px;background:#9c27b0;border-radius:50%;"></span> FEP — 15%</div>
+                            <div><span style="display:inline-block;width:10px;height:10px;background:#00bcd4;border-radius:50%;"></span> MOV — 4%</div>
+                            <div><span style="display:inline-block;width:10px;height:10px;background:#e91e63;border-radius:50%;"></span> LCK — 3%</div>
+                            <div><span style="display:inline-block;width:10px;height:10px;background:#795548;border-radius:50%;"></span> DRN — 4%</div>
+                            <div><span style="display:inline-block;width:10px;height:10px;background:#9e9e9e;border-radius:50%;"></span> Прочее — 6%</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ===== БЛОК 3: ТЕМПЕРАТУРА ВСЕХ ЖИВОТНЫХ ===== -->
+        <!-- ===== БЛОК 3: ТЕМПЕРАТУРА ВСЕХ ЖИВОТНЫХ (реалистичная) ===== -->
         <div class="notebook-page">
             <h3 style="font-size: 16px; color: #475569;">🌡️ Температура всех животных (за неделю)</h3>
             <div style="margin-top: 10px;">
                 <canvas id="tempAllChart" style="width: 100%; height: 200px;"></canvas>
+            </div>
+            <div style="font-size: 12px; color: #64748b; margin-top: 4px;">
+                Нормы: КРС (голштино-фризская) 38.0–39.3°C, КРС (симментальская) 38.0–39.3°C, козы 38.5–40.0°C, лошади 37.5–38.5°C
             </div>
         </div>
 
@@ -252,22 +235,17 @@
             </div>
         </div>
 
-        <!-- ===== БЛОК 6: ПОВЕДЕНЧЕСКИЕ АКТИВНОСТИ (круговая) ===== -->
+        <!-- ===== БЛОК 6: ТИПЫ ЗВУКОВ (круговая) ===== -->
         <div class="notebook-page">
-            <h3 style="font-size: 16px; color: #475569;">🐄 Поведенческие активности (за неделю)</h3>
+            <h3 style="font-size: 16px; color: #475569;">🎤 Типы звуков (за неделю)</h3>
             <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center; margin-top: 10px;">
                 <div style="flex: 1; min-width: 180px; max-width: 280px;">
-                    <canvas id="behaviorChart" style="width: 100%; height: 200px;"></canvas>
+                    <canvas id="soundChart" style="width: 100%; height: 200px;"></canvas>
                 </div>
-                <div style="flex: 1; min-width: 160px; font-size: 13px;">
-                    <div><span style="display:inline-block;width:10px;height:10px;background:#4caf50;border-radius:50%;"></span> RES — 28%</div>
-                    <div><span style="display:inline-block;width:10px;height:10px;background:#2196f3;border-radius:50%;"></span> RUS — 22%</div>
-                    <div><span style="display:inline-block;width:10px;height:10px;background:#ff9800;border-radius:50%;"></span> REL — 18%</div>
-                    <div><span style="display:inline-block;width:10px;height:10px;background:#9c27b0;border-radius:50%;"></span> FEP — 15%</div>
-                    <div><span style="display:inline-block;width:10px;height:10px;background:#00bcd4;border-radius:50%;"></span> MOV — 4%</div>
-                    <div><span style="display:inline-block;width:10px;height:10px;background:#e91e63;border-radius:50%;"></span> LCK — 3%</div>
-                    <div><span style="display:inline-block;width:10px;height:10px;background:#795548;border-radius:50%;"></span> DRN — 4%</div>
-                    <div><span style="display:inline-block;width:10px;height:10px;background:#9e9e9e;border-radius:50%;"></span> Прочее — 6%</div>
+                <div style="flex: 1; min-width: 120px; font-size: 13px;">
+                    <div><span style="display:inline-block;width:10px;height:10px;background:#4caf50;border-radius:50%;"></span> Норма — 65%</div>
+                    <div><span style="display:inline-block;width:10px;height:10px;background:#ff9800;border-radius:50%;"></span> Стресс — 22%</div>
+                    <div><span style="display:inline-block;width:10px;height:10px;background:#f44336;border-radius:50%;"></span> Кашель — 13%</div>
                 </div>
             </div>
         </div>
@@ -288,7 +266,7 @@
             </div>
         </div>
 
-        <!-- ===== БЛОК 9: ДИНАМИКА УДОЯ (3 ГРАФИКА) ===== -->
+        <!-- ===== БЛОК 9: ДИНАМИКА УДОЯ (более естественная) ===== -->
         <div class="notebook-page">
             <h3 style="font-size: 16px; color: #475569;">🥛 Динамика удоя (за неделю)</h3>
             <div class="yield-grid">
@@ -307,38 +285,7 @@
             </div>
         </div>
 
-        <!-- ===== БЛОК 10: ТЕПЛОВАЯ КАРТА СТАДА ===== -->
-        <div class="notebook-page">
-            <h3 style="font-size: 16px; color: #475569;">🗺️ Тепловая карта стада</h3>
-            <div class="heatmap-grid">
-                <div class="heatmap-item" style="background: #fee2e2; border-color: #ef4444;">
-                    <div class="emoji">🐄</div>
-                    <div class="name">Корова №1</div>
-                    <div class="temp" style="color:#ef4444;">39.7°C</div>
-                    <div class="location">📍 Центр загона</div>
-                </div>
-                <div class="heatmap-item" style="background: #fef9c3; border-color: #eab308;">
-                    <div class="emoji">🐐</div>
-                    <div class="name">Коза №2</div>
-                    <div class="temp" style="color:#eab308;">38.9°C</div>
-                    <div class="location">📍 У кормушки</div>
-                </div>
-                <div class="heatmap-item" style="background: #dcfce7; border-color: #22c55e;">
-                    <div class="emoji">🐴</div>
-                    <div class="name">Лошадь №3</div>
-                    <div class="temp" style="color:#22c55e;">37.8°C</div>
-                    <div class="location">📍 У выхода</div>
-                </div>
-                <div class="heatmap-item" style="background: #dcfce7; border-color: #22c55e;">
-                    <div class="emoji">🐄</div>
-                    <div class="name">Корова №4</div>
-                    <div class="temp" style="color:#22c55e;">38.4°C</div>
-                    <div class="location">📍 У поилки</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ===== БЛОК 11: ДИНАМИКА ВЕСА ===== -->
+        <!-- ===== БЛОК 10: ДИНАМИКА ВЕСА ===== -->
         <div class="notebook-page">
             <h3 style="font-size: 16px; color: #475569;">⚖️ Динамика веса за неделю</h3>
             <div class="weight-chart-grid">
@@ -361,7 +308,7 @@
             </div>
         </div>
 
-        <!-- ===== БЛОК 12: ПРОГНОЗ ПРОДУКТИВНОСТИ ===== -->
+        <!-- ===== БЛОК 11: ПРОГНОЗ ПРОДУКТИВНОСТИ ===== -->
         <div class="notebook-page">
             <h3 style="font-size: 16px; color: #475569;">📈 Прогноз продуктивности на следующую неделю</h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 12px;">
@@ -383,7 +330,7 @@
             </div>
         </div>
 
-        <!-- ===== БЛОК 13: ТАБЛИЦА ПО ЖИВОТНЫМ ===== -->
+        <!-- ===== БЛОК 12: ТАБЛИЦА ПО ЖИВОТНЫМ ===== -->
         <div class="table-card">
             <h3>📋 Детальный отчёт по животным</h3>
             <div style="overflow-x: auto;">
@@ -476,14 +423,14 @@
             }
         });
 
-        // ---- 2.2 КРУГОВАЯ — ТИПЫ ЗВУКОВ ----
-        new Chart(document.getElementById('soundChart'), {
+        // ---- 2.2 КРУГОВАЯ — ПОВЕДЕНЧЕСКИЕ АКТИВНОСТИ ----
+        new Chart(document.getElementById('behaviorChart'), {
             type: 'doughnut',
             data: {
-                labels: ['Норма', 'Стресс', 'Кашель'],
+                labels: ['RES', 'RUS', 'REL', 'FEP', 'MOV', 'LCK', 'DRN', 'Прочее'],
                 datasets: [{
-                    data: [65, 22, 13],
-                    backgroundColor: ['#4caf50', '#ff9800', '#f44336'],
+                    data: [28, 22, 18, 15, 4, 3, 4, 6],
+                    backgroundColor: ['#4caf50', '#2196f3', '#ff9800', '#9c27b0', '#00bcd4', '#e91e63', '#795548', '#9e9e9e'],
                     borderWidth: 2,
                     borderColor: '#ffffff'
                 }]
@@ -495,16 +442,52 @@
             }
         });
 
-        // ---- 2.3 ТЕМПЕРАТУРА ВСЕХ ЖИВОТНЫХ ----
+        // ---- 2.3 ТЕМПЕРАТУРА ВСЕХ ЖИВОТНЫХ (реалистичная) ----
         new Chart(document.getElementById('tempAllChart'), {
             type: 'line',
             data: {
                 labels: days,
                 datasets: [
-                    { label: 'Корова №1', data: [38.6, 38.8, 39.0, 39.3, 39.5, 39.8, 39.7], borderColor: '#ef4444', tension: 0.3, pointRadius: 4 },
-                    { label: 'Коза №2', data: [38.9, 38.8, 38.7, 38.9, 38.9, 39.0, 38.9], borderColor: '#eab308', tension: 0.3, pointRadius: 4 },
-                    { label: 'Лошадь №3', data: [37.8, 37.9, 37.8, 37.7, 37.8, 37.9, 37.8], borderColor: '#22c55e', tension: 0.3, pointRadius: 4 },
-                    { label: 'Корова №4', data: [38.4, 38.5, 38.4, 38.6, 38.5, 38.4, 38.4], borderColor: '#3b82f6', tension: 0.3, pointRadius: 4 }
+                    {
+                        label: 'Корова №1 (мастит)',
+                        data: [38.6, 38.9, 39.1, 39.3, 39.5, 39.4, 39.2],
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#ef4444'
+                    },
+                    {
+                        label: 'Коза №2',
+                        data: [38.8, 38.7, 38.9, 39.0, 38.8, 38.7, 38.9],
+                        borderColor: '#eab308',
+                        backgroundColor: 'rgba(234, 179, 8, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#eab308'
+                    },
+                    {
+                        label: 'Лошадь №3',
+                        data: [37.7, 37.9, 37.8, 37.6, 37.8, 38.0, 37.8],
+                        borderColor: '#22c55e',
+                        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#22c55e'
+                    },
+                    {
+                        label: 'Корова №4',
+                        data: [38.3, 38.5, 38.4, 38.6, 38.5, 38.4, 38.2],
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#3b82f6'
+                    }
                 ]
             },
             options: {
@@ -561,14 +544,14 @@
             }
         });
 
-        // ---- 2.6 ПОВЕДЕНЧЕСКИЕ АКТИВНОСТИ ----
-        new Chart(document.getElementById('behaviorChart'), {
+        // ---- 2.6 КРУГОВАЯ — ТИПЫ ЗВУКОВ ----
+        new Chart(document.getElementById('soundChart'), {
             type: 'doughnut',
             data: {
-                labels: ['RES', 'RUS', 'REL', 'FEP', 'MOV', 'LCK', 'DRN', 'Прочее'],
+                labels: ['Норма', 'Стресс', 'Кашель'],
                 datasets: [{
-                    data: [28, 22, 18, 15, 4, 3, 4, 6],
-                    backgroundColor: ['#4caf50', '#2196f3', '#ff9800', '#9c27b0', '#00bcd4', '#e91e63', '#795548', '#9e9e9e'],
+                    data: [65, 22, 13],
+                    backgroundColor: ['#4caf50', '#ff9800', '#f44336'],
                     borderWidth: 2,
                     borderColor: '#ffffff'
                 }]
@@ -632,7 +615,7 @@
             }
         });
 
-        // ---- 2.9 ДИНАМИКА УДОЯ (3 ГРАФИКА) ----
+        // ---- 2.9 ДИНАМИКА УДОЯ (более естественная) ----
         function createYieldChart(id, data, color, label) {
             const ctx = document.getElementById(id).getContext('2d');
             new Chart(ctx, {
@@ -645,9 +628,9 @@
                         borderColor: color,
                         backgroundColor: color + '20',
                         fill: true,
-                        tension: 0.3,
+                        tension: 0.4,
                         pointBackgroundColor: color,
-                        pointRadius: 3
+                        pointRadius: 4
                     }]
                 },
                 options: {
@@ -661,9 +644,10 @@
             });
         }
 
-        createYieldChart('yieldChart1', [18, 17, 16, 15, 14, 13, 12], '#ef4444', 'Корова №1');
-        createYieldChart('yieldChart2', [20, 20.5, 21, 21.5, 22, 22.5, 23], '#3b82f6', 'Корова №4');
-        createYieldChart('yieldChart3', [2.5, 2.6, 2.7, 2.8, 2.8, 2.9, 3.0], '#eab308', 'Коза №2');
+        // Более естественные данные с колебаниями
+        createYieldChart('yieldChart1', [18.5, 17.8, 16.2, 15.0, 14.5, 13.8, 12.5], '#ef4444', 'Корова №1');
+        createYieldChart('yieldChart2', [20.2, 20.8, 20.5, 21.2, 22.0, 21.5, 22.8], '#3b82f6', 'Корова №4');
+        createYieldChart('yieldChart3', [2.6, 2.8, 2.5, 2.9, 2.7, 3.0, 2.8], '#eab308', 'Коза №2');
 
         // ---- 2.10 ДИНАМИКА ВЕСА ----
         const weightData = {
@@ -732,4 +716,4 @@
 </script>
 
 </body>
-</ht
+</html>
