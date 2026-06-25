@@ -1,5 +1,5 @@
 /* ============================================================
-   CSS: Глаз фермы — общие стили
+   CSS: ФермAi — общие стили
    ============================================================ */
 
 :root {
@@ -27,7 +27,7 @@ body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background: var(--bg);
     color: var(--text);
-    padding: 16px;
+    padding: 12px;
     min-height: 100vh;
     padding-bottom: 60px;
 }
@@ -43,35 +43,35 @@ body {
     justify-content: space-between;
     align-items: center;
     background: white;
-    padding: 12px 18px;
-    border-radius: 20px;
+    padding: 10px 14px;
+    border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
 }
 
 .logo {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 18px;
     color: var(--primary);
 }
 
 .logo span {
     background: var(--primary);
     color: white;
-    padding: 2px 10px;
+    padding: 2px 8px;
     border-radius: 100px;
-    font-size: 11px;
+    font-size: 10px;
 }
 
 .logo .ai-badge {
     background: #7b1fa2;
-    font-size: 9px;
-    padding: 2px 8px;
+    font-size: 8px;
+    padding: 2px 6px;
     border-radius: 100px;
     color: white;
     margin-left: 4px;
@@ -79,7 +79,7 @@ body {
 
 .header-right {
     display: flex;
-    gap: 12px;
+    gap: 6px;
     align-items: center;
     flex-wrap: wrap;
 }
@@ -88,8 +88,8 @@ body {
     text-decoration: none;
     color: #475569;
     font-weight: 500;
-    font-size: 14px;
-    padding: 6px 12px;
+    font-size: 13px;
+    padding: 4px 10px;
     border-radius: 40px;
     transition: 0.2s;
 }
@@ -103,7 +103,7 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 40px;
+    height: 36px;
     background: #5d4037;
     z-index: 95;
     box-shadow: 0 -3px 8px rgba(0,0,0,0.2);
@@ -123,15 +123,15 @@ body {
     position: absolute;
     bottom: 0;
     left: 0;
-    height: 55px;
+    height: 50px;
     z-index: -1;
 }
 
 .picket {
     flex: 1;
-    max-width: 32px;
-    min-width: 18px;
-    height: 55px;
+    max-width: 28px;
+    min-width: 14px;
+    height: 50px;
     background: #8d6e63;
     clip-path: polygon(0% 100%, 0% 20%, 50% 0%, 100% 20%, 100% 100%);
     border: 1px solid #6d4c41;
@@ -140,26 +140,25 @@ body {
     flex-shrink: 1;
 }
 
-/* ----- КАРТОЧКА В СТИЛЕ ТЕТРАДИ (весь блок) ----- */
+/* ----- КАРТОЧКА В СТИЛЕ ТЕТРАДИ ----- */
 .notebook-page {
     background: var(--card-bg);
     border-radius: 8px;
-    padding: 30px 35px 30px 55px;
+    padding: 20px 20px 20px 38px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     position: relative;
     border: 1px solid #e8e0d0;
     background-image: linear-gradient(var(--notebook-line) 1px, transparent 1px);
     background-size: 100% 28px;
     background-position: 0 10px;
-    min-height: 300px;
+    min-height: 200px;
 }
 
-/* Красная вертикальная линия */
 .notebook-page::before {
     content: '';
     position: absolute;
-    left: 30px;
+    left: 22px;
     top: 0;
     bottom: 0;
     width: 2px;
@@ -167,17 +166,17 @@ body {
     opacity: 0.5;
 }
 
-/* ----- КАРТОЧКИ ДНЕВНИКА (тетрадный стиль) ----- */
+/* ----- КАРТОЧКИ ДНЕВНИКА ----- */
 .diary-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
 }
 
 .diary-card {
     background: var(--card-bg);
     border-radius: 8px;
-    padding: 16px 18px 16px 38px;
+    padding: 14px 14px 14px 30px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.04);
     border: 1px solid #e8e0d0;
     position: relative;
@@ -186,13 +185,13 @@ body {
     background-image: linear-gradient(var(--notebook-line) 1px, transparent 1px);
     background-size: 100% 24px;
     background-position: 0 8px;
-    min-height: 130px;
+    min-height: 120px;
 }
 
 .diary-card::before {
     content: '';
     position: absolute;
-    left: 18px;
+    left: 14px;
     top: 0;
     bottom: 0;
     width: 2px;
@@ -204,101 +203,102 @@ body {
 .diary-card.disabled { opacity: 0.6; cursor: not-allowed; }
 .diary-card.disabled:hover { transform: none; }
 
-.diary-card .top { display: flex; justify-content: space-between; align-items: center; }
-.diary-card .id { font-weight: 700; font-size: 17px; }
+.diary-card .top { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+.diary-card .id { font-weight: 700; font-size: 16px; }
 .diary-card .status {
-    font-size: 11px;
-    padding: 2px 10px;
+    font-size: 10px;
+    padding: 2px 8px;
     border-radius: 100px;
     background: #dcfce7;
     color: #166534;
+    white-space: nowrap;
 }
 .diary-card .status.risk { background: #fef9c3; color: #854d0e; }
 .diary-card .status.critical { background: #fee2e2; color: #991b1b; }
 .diary-card .info { margin-top: 6px; font-size: 13px; color: #475569; }
 .diary-card .extra { font-size: 12px; margin-top: 4px; }
-.diary-card .lock-icon { font-size: 12px; color: #94a3b8; margin-left: 4px; }
+.diary-card .lock-icon { font-size: 11px; color: #94a3b8; margin-left: 4px; }
 
 /* ----- ФИЛЬТРЫ ----- */
 .filters {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     flex-wrap: wrap;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     align-items: center;
 }
 
 .filter-group {
     display: flex;
-    gap: 6px;
+    gap: 4px;
     flex-wrap: wrap;
     align-items: center;
 }
 
 .filter-group .label {
-    font-size: 13px;
+    font-size: 12px;
     color: #64748b;
     font-weight: 500;
-    margin-right: 4px;
+    margin-right: 2px;
 }
 
 .filters button {
-    padding: 5px 14px;
+    padding: 4px 12px;
     border-radius: 40px;
     border: 1px solid var(--border);
     background: white;
     font-weight: 500;
     cursor: pointer;
     transition: 0.2s;
-    font-size: 12px;
+    font-size: 11px;
+    white-space: nowrap;
 }
 
 .filters button.active { background: var(--primary); color: white; border-color: var(--primary); }
 .filters button:hover:not(.active) { background: #f1f5f9; }
 
-/* Отступ для группы статусов вправо */
 .filter-status-group {
     margin-left: auto;
     display: flex;
-    gap: 6px;
+    gap: 4px;
     flex-wrap: wrap;
 }
 
 /* ----- ПОКАЗАТЕЛИ В КАРТОЧКЕ ----- */
 .vital-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-    gap: 10px;
-    margin: 12px 0;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 8px;
+    margin: 10px 0;
 }
 
 .vital-item {
     background: rgba(255,255,255,0.6);
-    padding: 8px 10px;
+    padding: 6px 8px;
     border-radius: 8px;
     text-align: center;
     border: 1px solid #e8e0d0;
 }
 
-.vital-item .label { font-size: 11px; color: #94a3b8; display: block; }
-.vital-item .value { font-size: 16px; font-weight: 700; display: block; margin-top: 2px; }
+.vital-item .label { font-size: 10px; color: #94a3b8; display: block; }
+.vital-item .value { font-size: 15px; font-weight: 700; display: block; margin-top: 2px; }
 
 /* ----- ИНФОРМАЦИОННЫЕ РЯДЫ ----- */
 .info-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px 18px;
-    margin: 8px 0;
-    font-size: 14px;
+    gap: 8px 14px;
+    margin: 6px 0;
+    font-size: 13px;
     color: #475569;
 }
 
 .info-row .label-text { color: #94a3b8; }
 .info-row .value-text { font-weight: 500; }
 
-/* ----- ПРИВИВКИ (календарь) ----- */
+/* ----- ПРИВИВКИ ----- */
 .vaccination-block {
-    margin-top: 12px;
+    margin-top: 10px;
     background: rgba(255,255,255,0.5);
     border-radius: 8px;
     padding: 0;
@@ -309,11 +309,12 @@ body {
     font-weight: 600;
     cursor: pointer;
     color: var(--primary);
-    padding: 10px 14px;
+    padding: 8px 12px;
     list-style: none;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    font-size: 13px;
 }
 
 .vaccination-block summary::-webkit-details-marker { display: none; }
@@ -324,29 +325,28 @@ body {
 }
 .vaccination-block[open] summary::after { transform: rotate(90deg); }
 
-.vaccination-list { padding: 0 14px 14px; }
-
+.vaccination-list { padding: 0 12px 12px; }
 .vaccination-item {
     display: flex;
     justify-content: space-between;
-    padding: 6px 0;
+    padding: 4px 0;
     border-bottom: 1px solid #e8e0d0;
-    font-size: 13px;
+    font-size: 12px;
 }
 .vaccination-item:last-child { border-bottom: none; }
 .vaccination-item .date { color: #64748b; }
 .vaccination-item .next { color: var(--success); font-weight: 500; }
 
 /* ----- ГРАФИК ----- */
-.graph-wrap { width: 100%; height: 160px; margin-top: 8px; }
-.graph-wrap canvas { width: 100% !important; height: 160px !important; }
+.graph-wrap { width: 100%; height: 140px; margin-top: 6px; }
+.graph-wrap canvas { width: 100% !important; height: 140px !important; }
 
 /* ----- ПРОГНОЗЫ ----- */
-.forecast-list { list-style: none; font-size: 14px; }
+.forecast-list { list-style: none; font-size: 13px; }
 .forecast-list li {
-    padding: 8px 14px;
+    padding: 6px 12px;
     border-radius: 8px;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 .forecast-list .high { background: #fee2e2; }
 .forecast-list .medium { background: #fef9c3; }
@@ -354,15 +354,16 @@ body {
 
 /* ----- КНОПКИ ----- */
 .btn {
-    padding: 8px 20px;
+    padding: 6px 16px;
     border-radius: 40px;
     border: none;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 13px;
     cursor: pointer;
     transition: 0.2s;
     text-decoration: none;
     display: inline-block;
+    white-space: nowrap;
 }
 
 .btn-primary { background: var(--primary); color: white; }
@@ -374,20 +375,17 @@ body {
 .btn-secondary { background: #e2e8f0; color: #1e293b; }
 .btn-secondary:hover { background: #cbd5e1; }
 
-.btn-danger { background: var(--danger); color: white; }
-.btn-danger:hover { background: #c62828; }
-
-/* ----- ЧАТ (обычное оформление, зелёные акценты) ----- */
+/* ----- ЧАТ ----- */
 .chat-box {
     border: 1px solid var(--accent);
     border-radius: 12px;
     background: white;
     overflow: hidden;
-    margin-top: 12px;
+    margin-top: 10px;
 }
 
 .chat-messages {
-    max-height: 200px;
+    max-height: 240px;
     overflow-y: auto;
     padding: 12px;
     display: flex;
@@ -396,55 +394,129 @@ body {
     background: #faf8f2;
 }
 
-.msg {
-    padding: 8px 14px;
-    border-radius: 12px;
-    max-width: 85%;
-    font-size: 14px;
-    word-break: break-word;
+.chat-msg {
+    display: flex;
+    gap: 6px;
+    max-width: 88%;
+    animation: fadeInUp 0.3s ease;
 }
 
-.msg.user {
+.chat-msg.user { align-self: flex-end; flex-direction: row-reverse; }
+.chat-msg .avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+.chat-msg.user .avatar { background: var(--primary); color: white; }
+.chat-msg.bot .avatar { background: #e8e0d0; }
+
+.chat-msg .bubble {
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    line-height: 1.4;
+    word-break: break-word;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.chat-msg.user .bubble {
     background: var(--primary);
     color: white;
-    align-self: flex-end;
+    border-bottom-right-radius: 4px;
 }
-
-.msg.bot {
-    background: #e8e0d0;
+.chat-msg.bot .bubble {
+    background: white;
     color: var(--text);
-    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+    border: 1px solid #e8e0d0;
+}
+.chat-msg .time {
+    font-size: 9px;
+    color: #94a3b8;
+    margin-top: 2px;
+    text-align: right;
 }
 
-.msg.typing {
-    background: #e8e0d0;
+/* Индикатор набора */
+.chat-typing {
     align-self: flex-start;
-    font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e8e0d0;
+    font-size: 12px;
     color: #94a3b8;
 }
+.chat-typing .dots {
+    display: flex;
+    gap: 3px;
+}
+.chat-typing .dots span {
+    width: 5px;
+    height: 5px;
+    background: #94a3b8;
+    border-radius: 50%;
+    animation: typingBounce 1.4s infinite;
+}
+.chat-typing .dots span:nth-child(2) { animation-delay: 0.2s; }
+.chat-typing .dots span:nth-child(3) { animation-delay: 0.4s; }
 
+@keyframes typingBounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-4px); }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Поле ввода чата */
 .chat-input-area {
     display: flex;
-    border-top: 1px solid var(--accent);
+    gap: 6px;
+    padding: 10px 14px;
     background: white;
+    border-top: 1px solid #e8e0d0;
+    flex-wrap: wrap;
 }
-
 .chat-input-area input {
     flex: 1;
-    padding: 10px 16px;
-    border: none;
+    min-width: 120px;
+    padding: 8px 14px;
+    border: 1px solid #e8e0d0;
+    border-radius: 40px;
     outline: none;
-    font-size: 14px;
+    font-size: 13px;
+    background: #f8faf8;
+    transition: 0.2s;
 }
-
+.chat-input-area input:focus {
+    border-color: var(--primary);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(11,59,44,0.08);
+}
 .chat-input-area button {
-    padding: 10px 24px;
-    border: none;
     background: var(--primary);
     color: white;
-    font-weight: 600;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 40px;
     cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
     transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
 }
 .chat-input-area button:hover { background: var(--primary-light); }
 .chat-input-area button.ai-btn { background: #7b1fa2; }
@@ -453,14 +525,14 @@ body {
 /* ----- TOAST ----- */
 .toast {
     position: fixed;
-    bottom: 80px;
+    bottom: 70px;
     left: 50%;
     transform: translateX(-50%);
     background: #1e293b;
     color: white;
-    padding: 14px 28px;
-    border-radius: 16px;
-    font-size: 15px;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 13px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.2);
     opacity: 0;
     transition: opacity 0.3s;
@@ -471,261 +543,143 @@ body {
 }
 .toast.show { opacity: 1; }
 
-/* ----- АДАПТИВ ----- */
-@media (max-width: 700px) {
-    .diary-grid { grid-template-columns: 1fr 1fr; }
-    .notebook-page { padding: 20px 20px 20px 35px; }
-    .notebook-page::before { left: 18px; }
-    .diary-card { padding: 12px 14px 12px 28px; }
-    .diary-card::before { left: 12px; }
-    .filter-status-group { margin-left: 0; width: 100%; justify-content: flex-start; margin-top: 6px; }
-}
-
-@media (max-width: 450px) {
-    .diary-grid { grid-template-columns: 1fr; }
-    .header { flex-direction: column; align-items: stretch; }
-    .header-right { justify-content: center; }
-    .notebook-page { padding: 16px 14px 16px 28px; }
-    .notebook-page::before { left: 14px; }
-}
 /* ============================================================
-   КРАСИВЫЙ ЧАТ
+   АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ
    ============================================================ */
 
-.chat-container {
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
-    border: 1px solid #e8e0d0;
-    overflow: hidden;
-    margin-top: 16px;
+/* Планшеты и маленькие ноутбуки */
+@media (max-width: 900px) {
+    .diary-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
 }
 
-/* Шапка чата */
-.chat-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 16px;
-    background: #f1f8e9;
-    border-bottom: 1px solid #e8e0d0;
-}
+/* Мобильные телефоны (ширина до 768px) */
+@media (max-width: 768px) {
+    body { padding: 8px; }
+    .app { padding: 0; }
 
-.chat-avatar {
-    width: 34px;
-    height: 34px;
-    background: var(--primary);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 17px;
-    flex-shrink: 0;
-    color: white;
-}
+    /* Хедер */
+    .header {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 10px 12px;
+        gap: 6px;
+    }
+    .logo { font-size: 16px; justify-content: center; }
+    .header-right {
+        justify-content: center;
+        gap: 4px;
+    }
+    .header-right a {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
 
-.chat-header-info {
-    flex: 1;
-}
+    /* Фильтры */
+    .filters {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+    }
+    .filter-group { justify-content: center; }
+    .filter-status-group {
+        margin-left: 0;
+        justify-content: center;
+    }
+    .filters button { font-size: 10px; padding: 3px 10px; }
 
-.chat-header-info .name {
-    font-weight: 600;
-    font-size: 14px;
-    color: var(--primary);
-}
+    /* Карточки дневника */
+    .diary-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .diary-card {
+        padding: 10px 10px 10px 22px;
+        min-height: 100px;
+    }
+    .diary-card::before { left: 10px; }
+    .diary-card .id { font-size: 14px; }
+    .diary-card .info { font-size: 11px; }
+    .diary-card .extra { font-size: 10px; }
+    .diary-card .status { font-size: 9px; padding: 1px 6px; }
 
-.chat-header-info .status {
-    font-size: 11px;
-    color: #94a3b8;
-}
+    /* Тетрадная страница */
+    .notebook-page {
+        padding: 14px 14px 14px 28px;
+        min-height: 150px;
+    }
+    .notebook-page::before { left: 16px; }
+    .notebook-page h2 { font-size: 18px; }
+    .notebook-page .sub { font-size: 12px; }
 
-.chat-online-indicator {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
+    /* Показатели */
+    .vital-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+    .vital-item { padding: 4px 6px; }
+    .vital-item .value { font-size: 14px; }
 
-.chat-online-indicator .dot {
-    width: 8px;
-    height: 8px;
-    background: #22c55e;
-    border-radius: 50%;
-}
+    .info-row {
+        font-size: 12px;
+        gap: 4px 10px;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
 
-.chat-online-indicator .label {
-    font-size: 11px;
-    color: #22c55e;
-    font-weight: 500;
-}
-
-/* Область сообщений */
-.chat-messages {
-    max-height: 280px;
-    overflow-y: auto;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background: #faf8f2;
-}
-
-/* Сообщения */
-.chat-msg {
-    display: flex;
-    gap: 8px;
-    max-width: 85%;
-    animation: fadeInUp 0.3s ease;
-}
-
-.chat-msg.user {
-    align-self: flex-end;
-    flex-direction: row-reverse;
-}
-
-.chat-msg .avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    flex-shrink: 0;
-}
-
-.chat-msg.user .avatar {
-    background: var(--primary);
-    color: white;
-}
-
-.chat-msg.bot .avatar {
-    background: #e8e0d0;
-}
-
-.chat-msg .bubble {
-    padding: 10px 16px;
-    border-radius: 16px;
-    font-size: 14px;
-    line-height: 1.5;
-    word-break: break-word;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-}
-
-.chat-msg.user .bubble {
-    background: var(--primary);
-    color: white;
-    border-bottom-right-radius: 4px;
-}
-
-.chat-msg.bot .bubble {
-    background: white;
-    color: var(--text);
-    border-bottom-left-radius: 4px;
-    border: 1px solid #e8e0d0;
-}
-
-.chat-msg .time {
-    font-size: 10px;
-    color: #94a3b8;
-    margin-top: 4px;
-    text-align: right;
-}
-
-/* Поле ввода */
-.chat-input-area {
-    display: flex;
-    gap: 8px;
-    padding: 12px 16px;
-    background: white;
-    border-top: 1px solid #e8e0d0;
-}
-
-.chat-input-area input {
-    flex: 1;
-    padding: 10px 16px;
-    border: 1px solid #e8e0d0;
-    border-radius: 40px;
-    outline: none;
-    font-size: 14px;
-    background: #f8faf8;
-    transition: 0.2s;
-}
-
-.chat-input-area input:focus {
-    border-color: var(--primary);
-    background: white;
-    box-shadow: 0 0 0 3px rgba(11, 59, 44, 0.08);
-}
-
-.chat-input-area button {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 10px 24px;
-    border-radius: 40px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 14px;
-    transition: 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
-}
-
-.chat-input-area button:hover {
-    background: var(--primary-light);
-    transform: scale(1.02);
-}
-
-.chat-input-area button:active {
-    transform: scale(0.98);
-}
-
-/* Индикатор набора */
-.chat-typing {
-    align-self: flex-start;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    background: white;
-    border-radius: 16px;
-    border: 1px solid #e8e0d0;
-    font-size: 13px;
-    color: #94a3b8;
-}
-
-.chat-typing .dots {
-    display: flex;
-    gap: 3px;
-}
-
-.chat-typing .dots span {
-    width: 6px;
-    height: 6px;
-    background: #94a3b8;
-    border-radius: 50%;
-    animation: typingBounce 1.4s infinite;
-}
-
-.chat-typing .dots span:nth-child(2) { animation-delay: 0.2s; }
-.chat-typing .dots span:nth-child(3) { animation-delay: 0.4s; }
-
-@keyframes typingBounce {
-    0%, 60%, 100% { transform: translateY(0); }
-    30% { transform: translateY(-4px); }
-}
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* ===== АДАПТИВ ДЛЯ ЧАТА ===== */
-@media (max-width: 480px) {
+    /* Чат */
     .chat-msg { max-width: 92%; }
-    .chat-input-area { flex-wrap: wrap; }
-    .chat-input-area input { min-width: 100%; }
-    .chat-input-area button { width: 100%; justify-content: center; }
+    .chat-msg .bubble { font-size: 12px; padding: 6px 10px; }
+    .chat-messages { max-height: 200px; padding: 10px; }
+    .chat-input-area { padding: 8px 10px; flex-wrap: wrap; }
+    .chat-input-area input {
+        min-width: 100%;
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+    .chat-input-area button {
+        width: 100%;
+        justify-content: center;
+        font-size: 12px;
+        padding: 6px 14px;
+    }
+    .chat-typing { font-size: 11px; padding: 4px 12px; }
+
+    /* График */
+    .graph-wrap { height: 120px; }
+    .graph-wrap canvas { height: 120px !important; }
+
+    /* Заборчик */
+    .fence-footer { height: 28px; }
+    .picket { height: 40px; max-width: 22px; min-width: 10px; }
+
+    /* Кнопки */
+    .btn { font-size: 12px; padding: 4px 12px; }
+
+    /* Прогнозы */
+    .forecast-list li { font-size: 12px; padding: 4px 10px; }
+}
+
+/* Очень маленькие телефоны (до 480px) */
+@media (max-width: 480px) {
+    .diary-grid { grid-template-columns: 1fr; }
+    .vital-grid { grid-template-columns: 1fr 1fr; }
+
+    .notebook-page {
+        padding: 10px 10px 10px 22px;
+        min-height: 120px;
+    }
+    .notebook-page::before { left: 12px; }
+
+    .header-right a { font-size: 10px; padding: 3px 6px; }
+
+    .stat-card { padding: 12px; }
+    .stat-card .stat-number { font-size: 24px; }
+
+    .filter-group .label { font-size: 10px; }
+    .filters button { font-size: 9px; padding: 2px 8px; }
+
+    .toast { font-size: 12px; padding: 8px 16px; bottom: 60px; }
+}
+
+/* Адаптив для экранов с высокой плотностью пикселей */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .notebook-page,
+    .diary-card {
+        background-image: linear-gradient(var(--notebook-line) 1px, transparent 1px);
+        background-size: 100% 28px;
+    }
 }
