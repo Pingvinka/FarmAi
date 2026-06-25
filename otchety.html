@@ -51,36 +51,93 @@
         .weight-chart-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 16px;
+            max-width: 800px;
+            margin: 0 auto;
         }
         .weight-chart-grid .chart-box {
             background: #faf8f2;
             border-radius: 8px;
-            padding: 12px;
+            padding: 10px;
             border: 1px solid #e8e0d0;
         }
         .weight-chart-grid .chart-box h4 {
-            font-size: 14px;
-            color: #475569;
-            margin-bottom: 6px;
+            font-size: 13px;
             text-align: center;
+            margin-bottom: 4px;
         }
         .weight-chart-grid .chart-box canvas {
             width: 100% !important;
-            height: 140px !important;
+            height: 120px !important;
         }
         @media (max-width: 700px) {
             .weight-chart-grid {
                 grid-template-columns: 1fr;
             }
         }
-        .chart-wrapper {
-            max-width: 500px;
-            margin: 0 auto;
+        .chart-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
-        .chart-wrapper canvas {
+        .chart-row .chart-col {
+            min-width: 0;
+        }
+        @media (max-width: 700px) {
+            .chart-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .heatmap-item {
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #e8e0d0;
+            transition: 0.2s;
+        }
+        .heatmap-item:hover {
+            transform: scale(1.02);
+        }
+        .heatmap-item .emoji { font-size: 28px; }
+        .heatmap-item .name { font-weight: 600; margin-top: 4px; }
+        .heatmap-item .temp { font-size: 18px; font-weight: 700; }
+        .heatmap-item .location { font-size: 12px; color: #64748b; }
+        @media (max-width: 600px) {
+            .heatmap-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        .yield-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-top: 10px;
+        }
+        .yield-grid .yield-box {
+            background: #faf8f2;
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid #e8e0d0;
+        }
+        .yield-grid .yield-box h4 {
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 4px;
+        }
+        .yield-grid .yield-box canvas {
             width: 100% !important;
-            height: 200px !important;
+            height: 110px !important;
+        }
+        @media (max-width: 700px) {
+            .yield-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -123,56 +180,84 @@
             </div>
         </div>
 
-        <!-- ===== БЛОК 2: КРУГОВАЯ — СТАТУС ЗДОРОВЬЯ ===== -->
+        <!-- ===== БЛОК 2: КРУГОВЫЕ ДИАГРАММЫ (СТАТУС + ЗВУКИ) в одну строку ===== -->
         <div class="notebook-page">
-            <h3 style="font-size: 16px; color: #475569;">📊 Распределение по статусу здоровья</h3>
-            <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center; margin-top: 10px;">
-                <div style="flex: 1; min-width: 200px; max-width: 320px;">
-                    <canvas id="statusChart" style="width: 100%; height: 220px;"></canvas>
+            <div class="chart-row">
+                <div class="chart-col">
+                    <h3 style="font-size: 16px; color: #475569; margin-bottom: 10px;">📊 Распределение по статусу здоровья</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center;">
+                        <div style="flex: 1; min-width: 160px; max-width: 250px;">
+                            <canvas id="statusChart" style="width: 100%; height: 180px;"></canvas>
+                        </div>
+                        <div style="flex: 1; min-width: 120px; font-size: 13px;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                <span style="display: inline-block; width: 12px; height: 12px; background: var(--success); border-radius: 50%;"></span>
+                                <span>Здоровы — 2 (20%)</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                <span style="display: inline-block; width: 12px; height: 12px; background: var(--warning); border-radius: 50%;"></span>
+                                <span>В зоне риска — 1 (10%)</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                                <span style="display: inline-block; width: 12px; height: 12px; background: var(--danger); border-radius: 50%;"></span>
+                                <span>Требуют осмотра — 1 (10%)</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="display: inline-block; width: 12px; height: 12px; background: #94a3b8; border-radius: 50%;"></span>
+                                <span>В калибровке — 6 (60%)</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div style="flex: 1; min-width: 150px;">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-                        <span style="display: inline-block; width: 12px; height: 12px; background: var(--success); border-radius: 50%;"></span>
-                        <span style="font-size: 14px;">Здоровы — 2 (20%)</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-                        <span style="display: inline-block; width: 12px; height: 12px; background: var(--warning); border-radius: 50%;"></span>
-                        <span style="font-size: 14px;">В зоне риска — 1 (10%)</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-                        <span style="display: inline-block; width: 12px; height: 12px; background: var(--danger); border-radius: 50%;"></span>
-                        <span style="font-size: 14px;">Требуют осмотра — 1 (10%)</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-                        <span style="display: inline-block; width: 12px; height: 12px; background: #94a3b8; border-radius: 50%;"></span>
-                        <span style="font-size: 14px;">В калибровке — 6 (60%)</span>
+                <div class="chart-col">
+                    <h3 style="font-size: 16px; color: #475569; margin-bottom: 10px;">🎤 Типы звуков (за неделю)</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center;">
+                        <div style="flex: 1; min-width: 160px; max-width: 250px;">
+                            <canvas id="soundChart" style="width: 100%; height: 180px;"></canvas>
+                        </div>
+                        <div style="flex: 1; min-width: 120px; font-size: 13px;">
+                            <div><span style="display:inline-block;width:10px;height:10px;background:#4caf50;border-radius:50%;"></span> Норма — 65%</div>
+                            <div><span style="display:inline-block;width:10px;height:10px;background:#ff9800;border-radius:50%;"></span> Стресс — 22%</div>
+                            <div><span style="display:inline-block;width:10px;height:10px;background:#f44336;border-radius:50%;"></span> Кашель — 13%</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- ===== БЛОК 3: СТОЛБЧАТАЯ — АКТИВНОСТЬ ===== -->
+        <!-- ===== БЛОК 3: ТЕМПЕРАТУРА ВСЕХ ЖИВОТНЫХ ===== -->
         <div class="notebook-page">
-            <h3 style="font-size: 16px; color: #475569;">📊 Активность животных за неделю (средняя)</h3>
+            <h3 style="font-size: 16px; color: #475569;">🌡️ Температура всех животных (за неделю)</h3>
             <div style="margin-top: 10px;">
-                <canvas id="activityChart" style="width: 100%; height: 220px;"></canvas>
+                <canvas id="tempAllChart" style="width: 100%; height: 200px;"></canvas>
             </div>
         </div>
 
-        <!-- ===== БЛОК 4: ГРАФИК — ТЕМПЕРАТУРА КОРОВЫ №1 ===== -->
+        <!-- ===== БЛОК 4: ОТКЛОНЕНИЕ ТЕМПЕРАТУРЫ ОТ НОРМЫ ===== -->
         <div class="notebook-page">
-            <h3 style="font-size: 16px; color: #475569;">📈 Динамика температуры (Корова №1, мастит)</h3>
+            <h3 style="font-size: 16px; color: #475569;">📊 Отклонение температуры от нормы</h3>
             <div style="margin-top: 10px;">
-                <canvas id="tempChart" style="width: 100%; height: 180px;"></canvas>
+                <canvas id="tempDeviationChart" style="width: 100%; height: 170px;"></canvas>
+            </div>
+            <div style="font-size: 13px; color: #64748b; margin-top: 6px;">
+                Норма температуры: КРС — 38.0–39.3°C, козы — 38.5–39.5°C, лошади — 37.5–38.5°C
             </div>
         </div>
 
-        <!-- ===== БЛОК 5: КРУГОВАЯ — ПОВЕДЕНЧЕСКИЕ АКТИВНОСТИ ===== -->
+        <!-- ===== БЛОК 5: АКТИВНОСТЬ ПО ЧАСАМ ===== -->
+        <div class="notebook-page">
+            <h3 style="font-size: 16px; color: #475569;">⏰ Активность по часам (средняя за неделю)</h3>
+            <div style="margin-top: 10px;">
+                <canvas id="hourlyActivityChart" style="width: 100%; height: 200px;"></canvas>
+            </div>
+        </div>
+
+        <!-- ===== БЛОК 6: ПОВЕДЕНЧЕСКИЕ АКТИВНОСТИ (круговая) ===== -->
         <div class="notebook-page">
             <h3 style="font-size: 16px; color: #475569;">🐄 Поведенческие активности (за неделю)</h3>
             <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center; margin-top: 10px;">
-                <div style="flex: 1; min-width: 200px; max-width: 320px;">
-                    <canvas id="behaviorChart" style="width: 100%; height: 220px;"></canvas>
+                <div style="flex: 1; min-width: 180px; max-width: 280px;">
+                    <canvas id="behaviorChart" style="width: 100%; height: 200px;"></canvas>
                 </div>
                 <div style="flex: 1; min-width: 160px; font-size: 13px;">
                     <div><span style="display:inline-block;width:10px;height:10px;background:#4caf50;border-radius:50%;"></span> RES — 28%</div>
@@ -187,7 +272,73 @@
             </div>
         </div>
 
-        <!-- ===== БЛОК 6: ДИНАМИКА ВЕСА (4 ОТДЕЛЬНЫХ ГРАФИКА) ===== -->
+        <!-- ===== БЛОК 7: СРАВНЕНИЕ РУМИНАЦИИ ===== -->
+        <div class="notebook-page">
+            <h3 style="font-size: 16px; color: #475569;">🔄 Сравнение руминации (за неделю)</h3>
+            <div style="margin-top: 10px;">
+                <canvas id="ruminationChart" style="width: 100%; height: 180px;"></canvas>
+            </div>
+        </div>
+
+        <!-- ===== БЛОК 8: ЧАСТОТА СТРЕСС-ЗВУКОВ ===== -->
+        <div class="notebook-page">
+            <h3 style="font-size: 16px; color: #475569;">📈 Частота стресс-звуков (за неделю)</h3>
+            <div style="margin-top: 10px;">
+                <canvas id="stressSoundsChart" style="width: 100%; height: 170px;"></canvas>
+            </div>
+        </div>
+
+        <!-- ===== БЛОК 9: ДИНАМИКА УДОЯ (3 ГРАФИКА) ===== -->
+        <div class="notebook-page">
+            <h3 style="font-size: 16px; color: #475569;">🥛 Динамика удоя (за неделю)</h3>
+            <div class="yield-grid">
+                <div class="yield-box">
+                    <h4 style="color:#ef4444;">🐄 Корова №1 (мастит)</h4>
+                    <canvas id="yieldChart1"></canvas>
+                </div>
+                <div class="yield-box">
+                    <h4 style="color:#3b82f6;">🐄 Корова №4</h4>
+                    <canvas id="yieldChart2"></canvas>
+                </div>
+                <div class="yield-box">
+                    <h4 style="color:#eab308;">🐐 Коза №2</h4>
+                    <canvas id="yieldChart3"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== БЛОК 10: ТЕПЛОВАЯ КАРТА СТАДА ===== -->
+        <div class="notebook-page">
+            <h3 style="font-size: 16px; color: #475569;">🗺️ Тепловая карта стада</h3>
+            <div class="heatmap-grid">
+                <div class="heatmap-item" style="background: #fee2e2; border-color: #ef4444;">
+                    <div class="emoji">🐄</div>
+                    <div class="name">Корова №1</div>
+                    <div class="temp" style="color:#ef4444;">39.7°C</div>
+                    <div class="location">📍 Центр загона</div>
+                </div>
+                <div class="heatmap-item" style="background: #fef9c3; border-color: #eab308;">
+                    <div class="emoji">🐐</div>
+                    <div class="name">Коза №2</div>
+                    <div class="temp" style="color:#eab308;">38.9°C</div>
+                    <div class="location">📍 У кормушки</div>
+                </div>
+                <div class="heatmap-item" style="background: #dcfce7; border-color: #22c55e;">
+                    <div class="emoji">🐴</div>
+                    <div class="name">Лошадь №3</div>
+                    <div class="temp" style="color:#22c55e;">37.8°C</div>
+                    <div class="location">📍 У выхода</div>
+                </div>
+                <div class="heatmap-item" style="background: #dcfce7; border-color: #22c55e;">
+                    <div class="emoji">🐄</div>
+                    <div class="name">Корова №4</div>
+                    <div class="temp" style="color:#22c55e;">38.4°C</div>
+                    <div class="location">📍 У поилки</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== БЛОК 11: ДИНАМИКА ВЕСА ===== -->
         <div class="notebook-page">
             <h3 style="font-size: 16px; color: #475569;">⚖️ Динамика веса за неделю</h3>
             <div class="weight-chart-grid">
@@ -210,7 +361,7 @@
             </div>
         </div>
 
-        <!-- ===== БЛОК 7: ПРОГНОЗ ПРОДУКТИВНОСТИ ===== -->
+        <!-- ===== БЛОК 12: ПРОГНОЗ ПРОДУКТИВНОСТИ ===== -->
         <div class="notebook-page">
             <h3 style="font-size: 16px; color: #475569;">📈 Прогноз продуктивности на следующую неделю</h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 12px;">
@@ -232,7 +383,7 @@
             </div>
         </div>
 
-        <!-- ===== БЛОК 8: ТАБЛИЦА ПО ЖИВОТНЫМ ===== -->
+        <!-- ===== БЛОК 13: ТАБЛИЦА ПО ЖИВОТНЫМ ===== -->
         <div class="table-card">
             <h3>📋 Детальный отчёт по животным</h3>
             <div style="overflow-x: auto;">
@@ -303,6 +454,9 @@
     chartScript.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js';
     chartScript.onload = function() {
 
+        const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+        const hours = ['0-2', '2-4', '4-6', '6-8', '8-10', '10-12', '12-14', '14-16', '16-18', '18-20', '20-22', '22-24'];
+
         // ---- 2.1 КРУГОВАЯ — СТАТУС ЗДОРОВЬЯ ----
         new Chart(document.getElementById('statusChart'), {
             type: 'doughnut',
@@ -322,22 +476,57 @@
             }
         });
 
-        // ---- 2.2 СТОЛБЧАТАЯ — АКТИВНОСТЬ ----
-        const avgActivity = {
-            '1': Math.round(animals['1'].graphData.reduce((a,b) => a+b, 0) / animals['1'].graphData.length),
-            '2': Math.round(animals['2'].graphData.reduce((a,b) => a+b, 0) / animals['2'].graphData.length),
-            '3': Math.round(animals['3'].graphData.reduce((a,b) => a+b, 0) / animals['3'].graphData.length),
-            '4': Math.round(animals['4'].graphData.reduce((a,b) => a+b, 0) / animals['4'].graphData.length)
-        };
+        // ---- 2.2 КРУГОВАЯ — ТИПЫ ЗВУКОВ ----
+        new Chart(document.getElementById('soundChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Норма', 'Стресс', 'Кашель'],
+                datasets: [{
+                    data: [65, 22, 13],
+                    backgroundColor: ['#4caf50', '#ff9800', '#f44336'],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                maintainAspectRatio: true
+            }
+        });
 
-        new Chart(document.getElementById('activityChart'), {
+        // ---- 2.3 ТЕМПЕРАТУРА ВСЕХ ЖИВОТНЫХ ----
+        new Chart(document.getElementById('tempAllChart'), {
+            type: 'line',
+            data: {
+                labels: days,
+                datasets: [
+                    { label: 'Корова №1', data: [38.6, 38.8, 39.0, 39.3, 39.5, 39.8, 39.7], borderColor: '#ef4444', tension: 0.3, pointRadius: 4 },
+                    { label: 'Коза №2', data: [38.9, 38.8, 38.7, 38.9, 38.9, 39.0, 38.9], borderColor: '#eab308', tension: 0.3, pointRadius: 4 },
+                    { label: 'Лошадь №3', data: [37.8, 37.9, 37.8, 37.7, 37.8, 37.9, 37.8], borderColor: '#22c55e', tension: 0.3, pointRadius: 4 },
+                    { label: 'Корова №4', data: [38.4, 38.5, 38.4, 38.6, 38.5, 38.4, 38.4], borderColor: '#3b82f6', tension: 0.3, pointRadius: 4 }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom', labels: { font: { size: 10 }, boxWidth: 12 } }
+                },
+                scales: {
+                    y: { min: 37.0, max: 40.5, ticks: { font: { size: 10 } } }
+                }
+            }
+        });
+
+        // ---- 2.4 ОТКЛОНЕНИЕ ТЕМПЕРАТУРЫ ОТ НОРМЫ ----
+        new Chart(document.getElementById('tempDeviationChart'), {
             type: 'bar',
             data: {
                 labels: ['Корова №1', 'Коза №2', 'Лошадь №3', 'Корова №4'],
                 datasets: [{
-                    label: 'Средняя активность за неделю',
-                    data: [avgActivity['1'], avgActivity['2'], avgActivity['3'], avgActivity['4']],
-                    backgroundColor: ['#ef4444', '#eab308', '#22c55e', '#3b82f6'],
+                    label: 'Отклонение от нормы (°C)',
+                    data: [0.7, 0.0, 0.0, 0.0],
+                    backgroundColor: ['#ef4444', '#94a3b8', '#94a3b8', '#94a3b8'],
                     borderRadius: 6
                 }]
             },
@@ -345,37 +534,34 @@
                 responsive: true,
                 plugins: { legend: { display: false } },
                 scales: {
-                    y: { beginAtZero: true, max: 100, ticks: { font: { size: 10 } } }
+                    y: { beginAtZero: true, ticks: { font: { size: 10 } } }
                 }
             }
         });
 
-        // ---- 2.3 ГРАФИК — ТЕМПЕРАТУРА ----
-        new Chart(document.getElementById('tempChart'), {
-            type: 'line',
+        // ---- 2.5 АКТИВНОСТЬ ПО ЧАСАМ ----
+        new Chart(document.getElementById('hourlyActivityChart'), {
+            type: 'bar',
             data: {
-                labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+                labels: hours,
                 datasets: [{
-                    label: 'Температура (°C)',
-                    data: [38.6, 38.8, 39.0, 39.3, 39.5, 39.8, 39.7],
-                    borderColor: '#ef4444',
-                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                    fill: true,
-                    tension: 0.3,
-                    pointBackgroundColor: '#ef4444',
-                    pointRadius: 5
+                    label: 'Средняя активность, %',
+                    data: [10, 8, 12, 25, 60, 75, 85, 90, 80, 65, 40, 20],
+                    backgroundColor: '#0b3b2c',
+                    borderRadius: 4
                 }]
             },
             options: {
                 responsive: true,
                 plugins: { legend: { display: false } },
                 scales: {
-                    y: { min: 38.0, max: 40.5, ticks: { font: { size: 10 } } }
+                    y: { beginAtZero: true, max: 100, ticks: { font: { size: 9 } } },
+                    x: { ticks: { font: { size: 8 }, maxRotation: 45 } }
                 }
             }
         });
 
-        // ---- 2.4 КРУГОВАЯ — ПОВЕДЕНЧЕСКИЕ АКТИВНОСТИ ----
+        // ---- 2.6 ПОВЕДЕНЧЕСКИЕ АКТИВНОСТИ ----
         new Chart(document.getElementById('behaviorChart'), {
             type: 'doughnut',
             data: {
@@ -394,14 +580,98 @@
             }
         });
 
-        // ---- 2.5 ДИНАМИКА ВЕСА (4 отдельных графика) ----
+        // ---- 2.7 СРАВНЕНИЕ РУМИНАЦИИ ----
+        const ruminationData = {
+            '1': 65,
+            '2': 72,
+            '3': 80,
+            '4': 75
+        };
+        new Chart(document.getElementById('ruminationChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Корова №1', 'Коза №2', 'Лошадь №3', 'Корова №4'],
+                datasets: [{
+                    label: 'Руминация, % от нормы',
+                    data: [ruminationData['1'], ruminationData['2'], ruminationData['3'], ruminationData['4']],
+                    backgroundColor: ['#ef4444', '#eab308', '#22c55e', '#3b82f6'],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, max: 100, ticks: { font: { size: 10 } } }
+                }
+            }
+        });
+
+        // ---- 2.8 ЧАСТОТА СТРЕСС-ЗВУКОВ ----
+        new Chart(document.getElementById('stressSoundsChart'), {
+            type: 'line',
+            data: {
+                labels: days,
+                datasets: [{
+                    label: 'Количество стресс-звуков',
+                    data: [2, 3, 1, 4, 5, 7, 6],
+                    borderColor: '#ef4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    fill: true,
+                    tension: 0.3,
+                    pointBackgroundColor: '#ef4444',
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, ticks: { font: { size: 10 } } }
+                }
+            }
+        });
+
+        // ---- 2.9 ДИНАМИКА УДОЯ (3 ГРАФИКА) ----
+        function createYieldChart(id, data, color, label) {
+            const ctx = document.getElementById(id).getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: days,
+                    datasets: [{
+                        label: 'Удой, л/день',
+                        data: data,
+                        borderColor: color,
+                        backgroundColor: color + '20',
+                        fill: true,
+                        tension: 0.3,
+                        pointBackgroundColor: color,
+                        pointRadius: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { ticks: { font: { size: 9 } } },
+                        x: { ticks: { font: { size: 9 } } }
+                    }
+                }
+            });
+        }
+
+        createYieldChart('yieldChart1', [18, 17, 16, 15, 14, 13, 12], '#ef4444', 'Корова №1');
+        createYieldChart('yieldChart2', [20, 20.5, 21, 21.5, 22, 22.5, 23], '#3b82f6', 'Корова №4');
+        createYieldChart('yieldChart3', [2.5, 2.6, 2.7, 2.8, 2.8, 2.9, 3.0], '#eab308', 'Коза №2');
+
+        // ---- 2.10 ДИНАМИКА ВЕСА ----
         const weightData = {
             cow1: [682, 681, 680, 680, 679, 678, 678],
             goat2: [55.2, 55.1, 55.0, 55.0, 54.9, 54.8, 54.7],
             horse3: [519, 520, 520, 521, 521, 522, 522],
             cow4: [599, 599.5, 600, 600, 600.5, 601, 601]
         };
-        const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 
         function createWeightChart(id, data, color, label) {
             const ctx = document.getElementById(id).getContext('2d');
@@ -417,21 +687,15 @@
                         fill: true,
                         tension: 0.3,
                         pointBackgroundColor: color,
-                        pointRadius: 4
+                        pointRadius: 3
                     }]
                 },
                 options: {
                     responsive: true,
-                    plugins: {
-                        legend: { display: false }
-                    },
+                    plugins: { legend: { display: false } },
                     scales: {
-                        y: {
-                            ticks: { font: { size: 9 } }
-                        },
-                        x: {
-                            ticks: { font: { size: 9 } }
-                        }
+                        y: { ticks: { font: { size: 9 } } },
+                        x: { ticks: { font: { size: 9 } } }
                     }
                 }
             });
@@ -468,4 +732,4 @@
 </script>
 
 </body>
-</html>
+</ht
