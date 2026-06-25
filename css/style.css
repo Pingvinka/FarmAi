@@ -103,7 +103,7 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 36px;
+    height: 40px;
     background: #5d4037;
     z-index: 95;
     box-shadow: 0 -3px 8px rgba(0,0,0,0.2);
@@ -123,15 +123,15 @@ body {
     position: absolute;
     bottom: 0;
     left: 0;
-    height: 50px;
+    height: 55px;
     z-index: -1;
 }
 
 .picket {
     flex: 1;
-    max-width: 28px;
-    min-width: 14px;
-    height: 50px;
+    max-width: 32px;
+    min-width: 18px;
+    height: 55px;
     background: #8d6e63;
     clip-path: polygon(0% 100%, 0% 20%, 50% 0%, 100% 20%, 100% 100%);
     border: 1px solid #6d4c41;
@@ -543,6 +543,28 @@ body {
 }
 .toast.show { opacity: 1; }
 
+/* ----- СТАТИСТИКА НА ДАШБОРДЕ ----- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+}
+.stat-card {
+    background: white;
+    padding: 14px 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.stat-card .stat-number { font-size: 28px; font-weight: 700; }
+.stat-card .stat-label { font-size: 13px; color: #64748b; }
+.stat-card.healthy .stat-number { color: var(--success); }
+.stat-card.risk .stat-number { color: var(--warning); }
+.stat-card.critical .stat-number { color: var(--danger); }
+
 /* ============================================================
    АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ
    ============================================================ */
@@ -620,6 +642,11 @@ body {
         flex-wrap: wrap;
     }
 
+    /* Статистика на дашборде */
+    .stats-grid { grid-template-columns: 1fr; gap: 8px; }
+    .stat-card { padding: 10px 14px; }
+    .stat-card .stat-number { font-size: 22px; }
+
     /* Чат */
     .chat-msg { max-width: 92%; }
     .chat-msg .bubble { font-size: 12px; padding: 6px 10px; }
@@ -642,9 +669,9 @@ body {
     .graph-wrap { height: 120px; }
     .graph-wrap canvas { height: 120px !important; }
 
-    /* Заборчик */
-    .fence-footer { height: 28px; }
-    .picket { height: 40px; max-width: 22px; min-width: 10px; }
+    /* Заборчик — как на десктопе (не уменьшаем!) */
+    .fence-footer { height: 40px; }
+    .picket { height: 55px; max-width: 32px; min-width: 18px; }
 
     /* Кнопки */
     .btn { font-size: 12px; padding: 4px 12px; }
@@ -666,20 +693,14 @@ body {
 
     .header-right a { font-size: 10px; padding: 3px 6px; }
 
-    .stat-card { padding: 12px; }
-    .stat-card .stat-number { font-size: 24px; }
+    .stat-card { padding: 8px 12px; }
+    .stat-card .stat-number { font-size: 20px; }
 
     .filter-group .label { font-size: 10px; }
     .filters button { font-size: 9px; padding: 2px 8px; }
 
     .toast { font-size: 12px; padding: 8px 16px; bottom: 60px; }
-}
 
-/* Адаптив для экранов с высокой плотностью пикселей */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .notebook-page,
-    .diary-card {
-        background-image: linear-gradient(var(--notebook-line) 1px, transparent 1px);
-        background-size: 100% 28px;
-    }
+    .fence-footer { height: 36px; }
+    .picket { height: 50px; max-width: 28px; min-width: 14px; }
 }

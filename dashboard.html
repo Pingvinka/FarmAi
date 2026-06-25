@@ -20,24 +20,36 @@
     </header>
 
     <!-- СТАТИСТИКА -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 20px;">
-        <div style="background: var(--success); color: white; padding: 18px 20px; border-radius: 12px;">
-            <div style="font-size: 0.85rem; opacity: 0.9;">🟢 Здоровы</div>
-            <div style="font-size: 2rem; font-weight: bold;">53</div>
+    <div class="stats-grid">
+        <div class="stat-card healthy">
+            <div>
+                <div class="stat-number">53</div>
+                <div class="stat-label">🟢 Здоровы</div>
+            </div>
+            <span style="font-size: 24px;">🐄</span>
         </div>
-        <div style="background: var(--warning); color: white; padding: 18px 20px; border-radius: 12px;">
-            <div style="font-size: 0.85rem; opacity: 0.9;">🟡 В зоне риска</div>
-            <div style="font-size: 2rem; font-weight: bold;">2</div>
+        <div class="stat-card risk">
+            <div>
+                <div class="stat-number">2</div>
+                <div class="stat-label">🟡 В зоне риска</div>
+            </div>
+            <span style="font-size: 24px;">🐐</span>
         </div>
-        <div style="background: var(--danger); color: white; padding: 18px 20px; border-radius: 12px;">
-            <div style="font-size: 0.85rem; opacity: 0.9;">🔴 Требуют осмотра</div>
-            <div style="font-size: 2rem; font-weight: bold;">1</div>
+        <div class="stat-card critical">
+            <div>
+                <div class="stat-number">1</div>
+                <div class="stat-label">🔴 Требуют осмотра</div>
+            </div>
+            <span style="font-size: 24px;">⚠️</span>
         </div>
     </div>
 
     <!-- УВЕДОМЛЕНИЕ + КНОПКА -->
     <div style="background: #ffebee; border-left: 5px solid var(--danger); padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px;">
-        <div><span style="background: var(--danger); color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: bold;">⚠️ Срочно</span> <strong>Корова №1</strong> Температура 39.7°C. Подозрение на мастит.</div>
+        <div style="line-height: 1.6;">
+            <span style="background: var(--danger); color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: bold; display: inline-block; margin-bottom: 2px;">⚠️ Срочно</span>
+            <strong>Корова №1</strong> — Температура 39.7°C. Подозрение на мастит.
+        </div>
         <a href="karta.html?id=1" class="btn btn-primary">Открыть карточку</a>
     </div>
 
@@ -46,10 +58,18 @@
         <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
             <h3 style="font-size: 16px; color: #475569;">Группы стада</h3>
             <div style="margin-top: 12px;">
-                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border);"><span>🐄 Дойные</span><strong>30</strong></div>
-                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border);"><span>🐄 Сухостой</span><strong>12</strong></div>
-                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border);"><span>🐐 Козы</span><strong>8</strong></div>
-                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border);"><span>🐴 Лошади</span><strong>6</strong></div>
+                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border);">
+                    <span>Дойные</span><strong>30</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border);">
+                    <span>Сухостой</span><strong>12</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border);">
+                    <span>Козы</span><strong>8</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border);">
+                    <span>Лошади</span><strong>6</strong>
+                </div>
             </div>
         </div>
         <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
