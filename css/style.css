@@ -843,12 +843,12 @@ body {
 
     /* Увеличиваем отступ снизу, чтобы чат не перекрывался заборчиком */
     body {
-        padding-bottom: 100px !important;
+        padding-bottom: 70px !important;
     }
 
     /* Круговые диаграммы */
     .chart-col canvas {
-        height: 200px !important;
+        height: 180px !important;
     }
 }
 
