@@ -14,8 +14,8 @@
         <div class="header-right">
             <a href="dashboard-ai.html" class="active">Главная</a>
             <a href="dnevnik-ai.html">Дневник стада</a>
-            <a href="otchety.html">Отчёты</a>
-            <a href="profile.html">Профиль</a>
+            <a href="otchety-ai.html">Отчёты</a>
+            <a href="profile-ai.html">Профиль</a>
         </div>
     </header>
 
@@ -47,9 +47,8 @@
         +6 животных в процессе подключения (калибровка датчиков)
     </div>
 
-    <!-- ГРУППЫ СТАДА + ГРАФИК (в 2 колонки) -->
+    <!-- ГРУППЫ СТАДА + ГРАФИК -->
     <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px; margin-bottom: 20px;">
-        <!-- ГРУППЫ СТАДА -->
         <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
             <h3 style="font-size: 16px; color: #475569;">Группы стада</h3>
             <div style="margin-top: 12px;">
@@ -71,7 +70,6 @@
             </div>
         </div>
 
-        <!-- ГРАФИК -->
         <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
             <h3 style="font-size: 16px; color: #475569;">📈 Активность стада (неделя)</h3>
             <canvas id="dashboardChart" style="width: 100%; height: 150px; margin-top: 8px;"></canvas>
@@ -107,6 +105,36 @@
                 <strong>Мобильная ветслужба</strong>
                 <p style="font-size: 0.85rem; color: #666;">Выезд 24/7 • Тел: +7 (999) 111-22-33</p>
             </div>
+        </div>
+    </div>
+
+    <!-- ===== ИИ-КОНСУЛЬТАНТ ДЛЯ СТАДА ===== -->
+    <div style="margin-top: 20px; background: white; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.04); border: 1px solid #e8e0d0; overflow: hidden;">
+        <div style="display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: #f3e5f5; border-bottom: 1px solid #e8e0d0;">
+            <div style="width: 32px; height: 32px; background: #7b1fa2; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; color: white;">
+                🤖
+            </div>
+            <div>
+                <div style="font-weight: 600; font-size: 14px; color: #4a148c;">ИИ-консультант (по стаду)</div>
+                <div style="font-size: 11px; color: #94a3b8;">Задайте общий вопрос о здоровье стада, кормлении или уходе</div>
+            </div>
+            <div style="margin-left: auto; display: flex; gap: 4px;">
+                <span style="display: inline-block; width: 8px; height: 8px; background: #22c55e; border-radius: 50%;"></span>
+                <span style="font-size: 11px; color: #22c55e; font-weight: 500;">в сети</span>
+            </div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages" style="max-height: 240px; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: #faf8f2;">
+            <div class="msg bot" style="background: white; border: 1px solid #e8e0d0; padding: 10px 14px; border-radius: 12px; max-width: 85%; align-self: flex-start; font-size: 14px;">
+                Здравствуйте! Я ИИ-консультант по стаду. Я знаю все показатели ваших 4 активных животных. Задайте вопрос о кормлении, здоровье, продуктивности или уходе за стадом в целом.
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 8px; padding: 12px 16px; background: white; border-top: 1px solid #e8e0d0;">
+            <input type="text" id="chatInput" placeholder="Напишите вопрос о стаде..." style="flex: 1; padding: 10px 16px; border: 1px solid #e8e0d0; border-radius: 40px; outline: none; font-size: 14px; background: #f8faf8; transition: 0.2s;">
+            <button id="sendBtn" style="background: #7b1fa2; color: white; border: none; padding: 10px 24px; border-radius: 40px; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.2s; display: flex; align-items: center; gap: 6px;">
+                <span>📤</span> Спросить ИИ
+            </button>
         </div>
     </div>
 
@@ -153,6 +181,90 @@
         }
     }
 
+    // ===== ИИ-ЧАТ ДЛЯ СТАДА =====
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    // Контекст стада для ИИ
+    function getHerdContext() {
+        let context = 'Стадо фермы "Рассвет". Активные животные: ';
+        const activeIds = ['1', '2', '3', '4'];
+        const animalsData = [];
+        activeIds.forEach(id => {
+            const animal = animals[id];
+            if (animal && !animal.empty) {
+                animalsData.push(
+                    `${animal.name} (${animal.breed}, ${animal.age}) — ` +
+                    `температура ${animal.temp}, активность ${animal.activity}, ` +
+                    `аппетит ${animal.appetite}, руминация ${animal.rumination}, ` +
+                    `статус: ${animal.statusText}`
+                );
+            }
+        });
+        context += animalsData.join('; ');
+        context += `. Всего в стаде 10 голов, из них 4 активных, 6 в калибровке. 
+        Группы стада: КРС — 4, Козы — 2, Лошади — 2, Свиньи — 1, Овцы — 1. 
+        Корова №1 болеет маститом — требуется особое внимание.`;
+        return context;
+    }
+
+    async function handleSend() {
+        const text = chatInput.value.trim();
+        if (!text) return;
+
+        // Добавляем сообщение пользователя
+        const userDiv = document.createElement('div');
+        userDiv.className = 'msg user';
+        userDiv.style.cssText = 'background: #0b3b2c; color: white; padding: 10px 14px; border-radius: 12px; max-width: 85%; align-self: flex-end; font-size: 14px;';
+        userDiv.textContent = text;
+        chatMessages.appendChild(userDiv);
+        chatInput.value = '';
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        // Показываем индикатор набора
+        const typingDiv = document.createElement('div');
+        typingDiv.className = 'msg bot';
+        typingDiv.style.cssText = 'background: #f1f5f9; padding: 10px 14px; border-radius: 12px; max-width: 85%; align-self: flex-start; font-size: 14px; font-style: italic; color: #94a3b8;';
+        typingDiv.textContent = '🤔 Думаю...';
+        chatMessages.appendChild(typingDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        try {
+            const response = await fetch('/.netlify/functions/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    message: text,
+                    context: getHerdContext()
+                })
+            });
+
+            const data = await response.json();
+            typingDiv.remove();
+
+            const botDiv = document.createElement('div');
+            botDiv.className = 'msg bot';
+            botDiv.style.cssText = 'background: white; border: 1px solid #e8e0d0; padding: 10px 14px; border-radius: 12px; max-width: 85%; align-self: flex-start; font-size: 14px;';
+            botDiv.textContent = data.reply || '⚠️ Ошибка ИИ: не удалось получить ответ. Попробуйте ещё раз.';
+            chatMessages.appendChild(botDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        } catch (err) {
+            typingDiv.remove();
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'msg bot';
+            errorDiv.style.cssText = 'background: #fee2e2; border: 1px solid #ef4444; padding: 10px 14px; border-radius: 12px; max-width: 85%; align-self: flex-start; font-size: 14px; color: #991b1b;';
+            errorDiv.textContent = '⚠️ Ошибка сети. Проверьте VPN или настройки.';
+            chatMessages.appendChild(errorDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    }
+
+    sendBtn.addEventListener('click', handleSend);
+    chatInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') handleSend();
+    });
+
     // ЗАБОРЧИК
     document.addEventListener('DOMContentLoaded', function() {
         const fence = document.querySelector('.fence-footer');
@@ -172,6 +284,8 @@
         fence.appendChild(container);
     });
 </script>
+
+<script src="js/animals.js"></script>
 
 </body>
 </html>
