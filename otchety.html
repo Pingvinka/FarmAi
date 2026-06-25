@@ -3,16 +3,453 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Отчёты — ФермAi </title>
+    <title>ФермAi — Отчёты</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div style="text-align:center;padding:80px 20px;">
-        <span style="font-size:4rem;">📊</span>
-        <h2 style="margin:20px 0;color:var(--primary);">Отчёты</h2>
-        <p style="color:#666;max-width:500px;margin:0 auto 30px;">Здесь будут доступны еженедельные отчёты по стаду, графики продуктивности и прогнозы.</p>
-        <a href="javascript:history.back()" class="btn btn-secondary">← Назад</a>
+
+<div class="app">
+    <header class="header">
+        <div class="logo">ФермAi <span>Beta</span></div>
+        <div class="header-right">
+            <a href="dashboard.html">Главная</a>
+            <a href="dnevnik.html">Дневник стада</a>
+            <a href="otchety.html" class="active">Отчёты</a>
+            <a href="profile.html">Профиль</a>
+        </div>
+    </header>
+
+    <div style="max-width: 1200px; margin: 0 auto;">
+
+        <!-- ===== БЛОК 1: СВОДКА ===== -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px;">
+            <div style="background: white; padding: 14px; border-radius: 12px; text-align: center; border: 1px solid var(--border);">
+                <div style="font-size: 28px; font-weight: 700; color: var(--primary);">4</div>
+                <div style="font-size: 13px; color: #64748b;">Активных животных</div>
+            </div>
+            <div style="background: white; padding: 14px; border-radius: 12px; text-align: center; border: 1px solid var(--border);">
+                <div style="font-size: 28px; font-weight: 700; color: var(--success);">2</div>
+                <div style="font-size: 13px; color: #64748b;">🟢 Здоровы</div>
+            </div>
+            <div style="background: white; padding: 14px; border-radius: 12px; text-align: center; border: 1px solid var(--border);">
+                <div style="font-size: 28px; font-weight: 700; color: var(--warning);">1</div>
+                <div style="font-size: 13px; color: #64748b;">🟡 В зоне риска</div>
+            </div>
+            <div style="background: white; padding: 14px; border-radius: 12px; text-align: center; border: 1px solid var(--border);">
+                <div style="font-size: 28px; font-weight: 700; color: var(--danger);">1</div>
+                <div style="font-size: 13px; color: #64748b;">🔴 Требуют осмотра</div>
+            </div>
+            <div style="background: white; padding: 14px; border-radius: 12px; text-align: center; border: 1px solid var(--border);">
+                <div style="font-size: 28px; font-weight: 700; color: #94a3b8;">6</div>
+                <div style="font-size: 13px; color: #64748b;">⏳ В калибровке</div>
+            </div>
+        </div>
+
+        <!-- ===== БЛОК 2: КРУГОВАЯ — СТАТУС ЗДОРОВЬЯ ===== -->
+        <div class="notebook-page">
+            <h3 style="font-size: 16px; color: #475569;">📊 Распределение по статусу здоровья</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center; margin-top: 10px;">
+                <div style="flex: 1; min-width: 200px;">
+                    <canvas id="statusChart" style="width: 100%; max-width: 280px; height: 200px;"></canvas>
+                </div>
+                <div style="flex: 1; min-width: 150px;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                        <span style="display: inline-block; width: 12px; height: 12px; background: var(--success); border-radius: 50%;"></span>
+                        <span style="font-size: 14px;">Здоровы — 2 (20%)</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                        <span style="display: inline-block; width: 12px; height: 12px; background: var(--warning); border-radius: 50%;"></span>
+                        <span style="font-size: 14px;">В зоне риска — 1 (10%)</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                        <span style="display: inline-block; width: 12px; height: 12px; background: var(--danger); border-radius: 50%;"></span>
+                        <span style="font-size: 14px;">Требуют осмотра — 1 (10%)</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="display: inline-block; width: 12px; height: 12px; background: #94a3b8; border-radius: 50%;"></span>
+                        <span style="font-size: 14px;">В калибровке — 6 (60%)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== БЛОК 3: СТОЛБЧАТАЯ — АКТИВНОСТЬ ===== -->
+        <div class="notebook-page">
+            <h3 style="font-size: 16px; color: #475569;">📊 Активность животных за неделю (средняя)</h3>
+            <div style="margin-top: 10px;">
+                <canvas id="activityChart" style="width: 100%; height: 220px;"></canvas>
+            </div>
+        </div>
+
+        <!-- ===== БЛОК 4: ГРАФИК — ТЕМПЕРАТУРА КОРОВЫ №1 ===== -->
+        <div class="notebook-page">
+            <h3 style="font-size: 16px; color: #475569;">📈 Динамика температуры (Корова №1, мастит)</h3>
+            <div style="margin-top: 10px;">
+                <canvas id="tempChart" style="width: 100%; height: 180px;"></canvas>
+            </div>
+        </div>
+
+        <!-- ===== БЛОК 5: КРУГОВАЯ — ПОВЕДЕНЧЕСКИЕ АКТИВНОСТИ ===== -->
+        <div class="notebook-page">
+            <h3 style="font-size: 16px; color: #475569;">🐄 Поведенческие активности (за неделю)</h3>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center; margin-top: 10px;">
+                <div style="flex: 1; min-width: 200px;">
+                    <canvas id="behaviorChart" style="width: 100%; max-width: 280px; height: 200px;"></canvas>
+                </div>
+                <div style="flex: 1; min-width: 160px; font-size: 13px;">
+                    <div><span style="display:inline-block;width:10px;height:10px;background:#4caf50;border-radius:50%;"></span> RES — 28%</div>
+                    <div><span style="display:inline-block;width:10px;height:10px;background:#2196f3;border-radius:50%;"></span> RUS — 22%</div>
+                    <div><span style="display:inline-block;width:10px;height:10px;background:#ff9800;border-radius:50%;"></span> REL — 18%</div>
+                    <div><span style="display:inline-block;width:10px;height:10px;background:#9c27b0;border-radius:50%;"></span> FEP — 15%</div>
+                    <div><span style="display:inline-block;width:10px;height:10px;background:#00bcd4;border-radius:50%;"></span> MOV — 4%</div>
+                    <div><span style="display:inline-block;width:10px;height:10px;background:#e91e63;border-radius:50%;"></span> LCK — 3%</div>
+                    <div><span style="display:inline-block;width:10px;height:10px;background:#795548;border-radius:50%;"></span> DRN — 4%</div>
+                    <div><span style="display:inline-block;width:10px;height:10px;background:#9e9e9e;border-radius:50%;"></span> Прочее — 6%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== БЛОК 6: ДИНАМИКА ВЕСА (4 ЖИВОТНЫХ) ===== -->
+        <div class="notebook-page">
+            <h3 style="font-size: 16px; color: #475569;">⚖️ Динамика веса (за неделю)</h3>
+            <div style="margin-top: 10px;">
+                <canvas id="weightChart" style="width: 100%; height: 220px;"></canvas>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; font-size: 13px;">
+                <span><span style="display:inline-block;width:12px;height:12px;background:#ef4444;border-radius:50%;"></span> Корова №1 (мастит) — -2 кг</span>
+                <span><span style="display:inline-block;width:12px;height:12px;background:#eab308;border-radius:50%;"></span> Коза №2 — -0.5 кг</span>
+                <span><span style="display:inline-block;width:12px;height:12px;background:#22c55e;border-radius:50%;"></span> Лошадь №3 — +1 кг</span>
+                <span><span style="display:inline-block;width:12px;height:12px;background:#3b82f6;border-radius:50%;"></span> Корова №4 — +0.5 кг</span>
+            </div>
+        </div>
+
+        <!-- ===== БЛОК 7: ТЕПЛОВАЯ КАРТА СТАДА ===== -->
+        <div class="notebook-page">
+            <h3 style="font-size: 16px; color: #475569;">🗺️ Тепловая карта стада</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 12px;">
+                <div style="background: #fee2e2; padding: 12px; border-radius: 8px; text-align: center; border-left: 4px solid #ef4444;">
+                    <span style="font-size: 24px;">🐄</span>
+                    <div style="font-weight: 700;">Корова №1</div>
+                    <div style="font-size: 13px; color: #ef4444;">39.7°C</div>
+                    <div style="font-size: 12px; color: #64748b;">📍 Центр загона</div>
+                </div>
+                <div style="background: #fef9c3; padding: 12px; border-radius: 8px; text-align: center; border-left: 4px solid #eab308;">
+                    <span style="font-size: 24px;">🐐</span>
+                    <div style="font-weight: 700;">Коза №2</div>
+                    <div style="font-size: 13px; color: #eab308;">38.9°C</div>
+                    <div style="font-size: 12px; color: #64748b;">📍 У кормушки</div>
+                </div>
+                <div style="background: #dcfce7; padding: 12px; border-radius: 8px; text-align: center; border-left: 4px solid #22c55e;">
+                    <span style="font-size: 24px;">🐴</span>
+                    <div style="font-weight: 700;">Лошадь №3</div>
+                    <div style="font-size: 13px; color: #22c55e;">37.8°C</div>
+                    <div style="font-size: 12px; color: #64748b;">📍 У выхода</div>
+                </div>
+                <div style="background: #dcfce7; padding: 12px; border-radius: 8px; text-align: center; border-left: 4px solid #22c55e;">
+                    <span style="font-size: 24px;">🐄</span>
+                    <div style="font-weight: 700;">Корова №4</div>
+                    <div style="font-size: 13px; color: #22c55e;">38.4°C</div>
+                    <div style="font-size: 12px; color: #64748b;">📍 У поилки</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== БЛОК 8: ПРОГНОЗ ПРОДУКТИВНОСТИ ===== -->
+        <div class="notebook-page">
+            <h3 style="font-size: 16px; color: #475569;">📈 Прогноз продуктивности на следующую неделю</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 12px;">
+                <div style="background: #f1f8e9; padding: 12px; border-radius: 8px; border: 1px solid #a5d6a7;">
+                    <div style="font-size: 13px; color: #64748b;">🐄 Средний удой (КРС)</div>
+                    <div style="font-size: 22px; font-weight: 700; color: var(--primary);">17.2 <span style="font-size: 14px; font-weight: 400; color: #64748b;">л/день</span></div>
+                    <div style="font-size: 12px; color: #ef4444;">▼ на 7% (из-за мастита)</div>
+                </div>
+                <div style="background: #f1f8e9; padding: 12px; border-radius: 8px; border: 1px solid #a5d6a7;">
+                    <div style="font-size: 13px; color: #64748b;">🐐 Средний привес (козы)</div>
+                    <div style="font-size: 22px; font-weight: 700; color: var(--primary);">0.7 <span style="font-size: 14px; font-weight: 400; color: #64748b;">кг/нед</span></div>
+                    <div style="font-size: 12px; color: #ef4444;">▼ на 12%</div>
+                </div>
+                <div style="background: #f1f8e9; padding: 12px; border-radius: 8px; border: 1px solid #a5d6a7;">
+                    <div style="font-size: 13px; color: #64748b;">🐴 Средний привес (лошади)</div>
+                    <div style="font-size: 22px; font-weight: 700; color: var(--primary);">1.2 <span style="font-size: 14px; font-weight: 400; color: #64748b;">кг/нед</span></div>
+                    <div style="font-size: 12px; color: #22c55e;">▲ на 20%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== БЛОК 9: ТАБЛИЦА ПО ЖИВОТНЫМ ===== -->
+        <div class="notebook-page" style="overflow-x: auto;">
+            <h3 style="font-size: 16px; color: #475569;">📋 Детальный отчёт по животным</h3>
+            <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; min-width: 600px;">
+                <thead>
+                    <tr style="background: #f1f5f9; border-bottom: 2px solid var(--border);">
+                        <th style="padding: 8px 10px; text-align: left;">ID</th>
+                        <th style="padding: 8px 10px; text-align: left;">Имя</th>
+                        <th style="padding: 8px 10px; text-align: left;">Статус</th>
+                        <th style="padding: 8px 10px; text-align: left;">Темп.</th>
+                        <th style="padding: 8px 10px; text-align: left;">Активность</th>
+                        <th style="padding: 8px 10px; text-align: left;">Аппетит</th>
+                        <th style="padding: 8px 10px; text-align: left;">Руминация</th>
+                        <th style="padding: 8px 10px; text-align: left;">След. прививка</th>
+                    </tr>
+                </thead>
+                <tbody id="reportTable">
+                    <!-- Заполняется из JS -->
+                </tbody>
+            </table>
+        </div>
+
     </div>
+
     <div class="fence-footer"></div>
+</div>
+
+<script src="js/animals.js"></script>
+<script>
+    // ============================================================
+    // 1. ЗАПОЛНЕНИЕ ТАБЛИЦЫ
+    // ============================================================
+    const tableBody = document.getElementById('reportTable');
+    const activeIds = ['1', '2', '3', '4'];
+
+    activeIds.forEach(id => {
+        const animal = animals[id];
+        if (!animal || animal.empty) return;
+
+        const statusMap = {
+            'critical': { text: '🔴 Критично', color: '#ef4444' },
+            'risk': { text: '🟡 Риск', color: '#eab308' },
+            'healthy': { text: '🟢 Здорова', color: '#22c55e' }
+        };
+        const s = statusMap[animal.status] || statusMap.healthy;
+
+        const nextVac = animal.vaccinations ? animal.vaccinations.find(v => v.next) : null;
+
+        const row = document.createElement('tr');
+        row.style.borderBottom = '1px solid #e2e8f0';
+        row.innerHTML = `
+            <td style="padding: 8px 10px; font-weight: 600;">${id}</td>
+            <td style="padding: 8px 10px;">${animal.emoji} ${animal.name}</td>
+            <td style="padding: 8px 10px; color: ${s.color}; font-weight: 600;">${s.text}</td>
+            <td style="padding: 8px 10px;">${animal.temp}</td>
+            <td style="padding: 8px 10px;">${animal.activity}</td>
+            <td style="padding: 8px 10px;">${animal.appetite}</td>
+            <td style="padding: 8px 10px;">${animal.rumination}</td>
+            <td style="padding: 8px 10px;">${nextVac ? nextVac.date : '—'}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+
+    // ============================================================
+    // 2. КРУГОВАЯ ДИАГРАММА — СТАТУС ЗДОРОВЬЯ
+    // ============================================================
+    const statusCtx = document.getElementById('statusChart').getContext('2d');
+    new Chart(statusCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Здоровы', 'В зоне риска', 'Требуют осмотра', 'В калибровке'],
+            datasets: [{
+                data: [2, 1, 1, 6],
+                backgroundColor: ['#388e3c', '#f57c00', '#d32f2f', '#94a3b8'],
+                borderWidth: 2,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+
+    // ============================================================
+    // 3. СТОЛБЧАТАЯ ДИАГРАММА — АКТИВНОСТЬ
+    // ============================================================
+    const activityCtx = document.getElementById('activityChart').getContext('2d');
+
+    // Считаем среднюю активность из graphData
+    const avgActivity = {
+        '1': Math.round(animals['1'].graphData.reduce((a,b) => a+b, 0) / animals['1'].graphData.length),
+        '2': Math.round(animals['2'].graphData.reduce((a,b) => a+b, 0) / animals['2'].graphData.length),
+        '3': Math.round(animals['3'].graphData.reduce((a,b) => a+b, 0) / animals['3'].graphData.length),
+        '4': Math.round(animals['4'].graphData.reduce((a,b) => a+b, 0) / animals['4'].graphData.length)
+    };
+
+    new Chart(activityCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Корова №1', 'Коза №2', 'Лошадь №3', 'Корова №4'],
+            datasets: [{
+                label: 'Средняя активность за неделю',
+                data: [avgActivity['1'], avgActivity['2'], avgActivity['3'], avgActivity['4']],
+                backgroundColor: ['#ef4444', '#eab308', '#22c55e', '#3b82f6'],
+                borderRadius: 6,
+                borderSkipped: false
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: { font: { size: 10 } }
+                }
+            }
+        }
+    });
+
+    // ============================================================
+    // 4. ГРАФИК — ТЕМПЕРАТУРА КОРОВЫ №1
+    // ============================================================
+    const tempCtx = document.getElementById('tempChart').getContext('2d');
+    const tempData = [38.6, 38.8, 39.0, 39.3, 39.5, 39.8, 39.7];
+    const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+
+    new Chart(tempCtx, {
+        type: 'line',
+        data: {
+            labels: days,
+            datasets: [{
+                label: 'Температура (°C)',
+                data: tempData,
+                borderColor: '#ef4444',
+                backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                fill: true,
+                tension: 0.3,
+                pointBackgroundColor: '#ef4444',
+                pointRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    min: 38.0,
+                    max: 40.5,
+                    ticks: { font: { size: 10 } }
+                }
+            }
+        }
+    });
+
+    // ============================================================
+    // 5. КРУГОВАЯ — ПОВЕДЕНЧЕСКИЕ АКТИВНОСТИ
+    // ============================================================
+    const behaviorCtx = document.getElementById('behaviorChart').getContext('2d');
+    new Chart(behaviorCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['RES', 'RUS', 'REL', 'FEP', 'MOV', 'LCK', 'DRN', 'Прочее'],
+            datasets: [{
+                data: [28, 22, 18, 15, 4, 3, 4, 6],
+                backgroundColor: ['#4caf50', '#2196f3', '#ff9800', '#9c27b0', '#00bcd4', '#e91e63', '#795548', '#9e9e9e'],
+                borderWidth: 2,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+
+    // ============================================================
+    // 6. ДИНАМИКА ВЕСА (4 ЖИВОТНЫХ)
+    // ============================================================
+    const weightCtx = document.getElementById('weightChart').getContext('2d');
+
+    // Данные веса по дням для 4 животных
+    const weightData = {
+        cow1: [682, 681, 680, 680, 679, 678, 678],
+        goat2: [55.2, 55.1, 55.0, 55.0, 54.9, 54.8, 54.7],
+        horse3: [519, 520, 520, 521, 521, 522, 522],
+        cow4: [599, 599.5, 600, 600, 600.5, 601, 601]
+    };
+
+    new Chart(weightCtx, {
+        type: 'line',
+        data: {
+            labels: days,
+            datasets: [
+                {
+                    label: 'Корова №1',
+                    data: weightData.cow1,
+                    borderColor: '#ef4444',
+                    tension: 0.3,
+                    pointRadius: 3
+                },
+                {
+                    label: 'Коза №2',
+                    data: weightData.goat2,
+                    borderColor: '#eab308',
+                    tension: 0.3,
+                    pointRadius: 3
+                },
+                {
+                    label: 'Лошадь №3',
+                    data: weightData.horse3,
+                    borderColor: '#22c55e',
+                    tension: 0.3,
+                    pointRadius: 3
+                },
+                {
+                    label: 'Корова №4',
+                    data: weightData.cow4,
+                    borderColor: '#3b82f6',
+                    tension: 0.3,
+                    pointRadius: 3
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { font: { size: 10 }, boxWidth: 12 }
+                }
+            },
+            scales: {
+                y: {
+                    ticks: { font: { size: 10 } }
+                }
+            }
+        }
+    });
+
+    // ============================================================
+    // 7. ЗАБОРЧИК
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        const fence = document.querySelector('.fence-footer');
+        if (!fence) return;
+        const old = fence.querySelector('.picket-fence');
+        if (old) old.remove();
+        const container = document.createElement('div');
+        container.className = 'picket-fence';
+        const count = Math.max(12, Math.floor(window.innerWidth / 30));
+        for (let i = 0; i < count; i++) {
+            const picket = document.createElement('div');
+            picket.className = 'picket';
+            if (i % 5 === 2) picket.style.transform = 'rotate(2deg)';
+            if (i % 7 === 3) picket.style.transform = 'rotate(-3deg)';
+            container.appendChild(picket);
+        }
+        fence.appendChild(container);
+    });
+</script>
+
+<!-- Chart.js для диаграмм -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
 </body>
 </html>

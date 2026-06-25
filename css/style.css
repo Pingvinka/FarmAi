@@ -382,6 +382,7 @@ body {
     background: white;
     overflow: hidden;
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .chat-messages {
@@ -565,6 +566,41 @@ body {
 .stat-card.risk .stat-number { color: var(--warning); }
 .stat-card.critical .stat-number { color: var(--danger); }
 
+/* ----- ПРОФИЛЬ (оборудование) ----- */
+.equipment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.equipment-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    transition: 0.2s;
+}
+.equipment-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+
+.equipment-card .icon { font-size: 28px; flex-shrink: 0; }
+.equipment-card .info h4 { font-size: 14px; margin-bottom: 4px; }
+.equipment-card .info p { font-size: 12px; color: #64748b; }
+.equipment-card .status-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 100px;
+    font-size: 10px;
+    font-weight: 600;
+    margin-top: 4px;
+}
+.equipment-card .status-badge.active { background: #dcfce7; color: #166534; }
+.equipment-card .status-badge.plan { background: #fef9c3; color: #854d0e; }
+.equipment-card .status-badge.inactive { background: #fee2e2; color: #991b1b; }
+
 /* ============================================================
    АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ
    ============================================================ */
@@ -647,7 +683,10 @@ body {
     .stat-card { padding: 10px 14px; }
     .stat-card .stat-number { font-size: 22px; }
 
-    /* Чат */
+    /* Чат — увеличиваем отступ снизу */
+    .chat-box {
+        margin-bottom: 30px;
+    }
     .chat-msg { max-width: 92%; }
     .chat-msg .bubble { font-size: 12px; padding: 6px 10px; }
     .chat-messages { max-height: 200px; padding: 10px; }
@@ -669,7 +708,7 @@ body {
     .graph-wrap { height: 120px; }
     .graph-wrap canvas { height: 120px !important; }
 
-    /* Заборчик — как на десктопе (не уменьшаем!) */
+    /* Заборчик */
     .fence-footer { height: 40px; }
     .picket { height: 55px; max-width: 32px; min-width: 18px; }
 
@@ -678,6 +717,9 @@ body {
 
     /* Прогнозы */
     .forecast-list li { font-size: 12px; padding: 4px 10px; }
+
+    /* Оборудование */
+    .equipment-grid { grid-template-columns: 1fr; }
 }
 
 /* Очень маленькие телефоны (до 480px) */
@@ -703,4 +745,7 @@ body {
 
     .fence-footer { height: 36px; }
     .picket { height: 50px; max-width: 28px; min-width: 14px; }
+
+    /* Чат — ещё больше отступ на маленьких экранах */
+    .chat-box { margin-bottom: 40px; }
 }

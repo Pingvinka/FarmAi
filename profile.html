@@ -3,17 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Профиль — ФермAi </title>
+    <title>ФермAi — Профиль</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div style="text-align:center;padding:80px 20px;">
-        <span style="font-size:4rem;">👤</span>
-        <h2 style="margin:20px 0;color:var(--primary);">Иван Петрович</h2>
-        <p style="color:#666;">Ферма «Рассвет»</p>
-        <p style="color:#888;margin-bottom:30px;">Здесь можно изменить настройки, подписку и подключенные IoT-устройства.</p>
-        <a href="javascript:history.back()" class="btn btn-secondary">← Назад</a>
+
+<div class="app">
+    <header class="header">
+        <div class="logo">ФермAi <span>Beta</span></div>
+        <div class="header-right">
+            <a href="dashboard.html">Главная</a>
+            <a href="dnevnik.html">Дневник стада</a>
+            <a href="otchety.html">Отчёты</a>
+            <a href="profile.html" class="active">Профиль</a>
+        </div>
+    </header>
+
+    <div style="max-width: 900px; margin: 0 auto;">
+        <!-- Информация о ферме -->
+        <div class="notebook-page">
+            <h2 style="font-size: 20px; color: var(--primary);">👤 Иван Петрович</h2>
+            <div style="color: #64748b; font-size: 14px; margin-top: 4px;">Ферма «Рассвет»</div>
+            <div style="margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 14px;">
+                <span><span style="color: #94a3b8;">Всего голов:</span> 10</span>
+                <span><span style="color: #94a3b8;">Активных:</span> 4</span>
+                <span><span style="color: #94a3b8;">В калибровке:</span> 6</span>
+                <span><span style="color: #94a3b8;">Подключено устройств:</span> 8</span>
+            </div>
+        </div>
+
+        <!-- Установленное оборудование -->
+        <div class="notebook-page">
+            <h3 style="font-size: 16px; color: var(--primary); margin-bottom: 8px;">🛠️ Установленное оборудование</h3>
+            <div class="equipment-grid">
+                <div class="equipment-card">
+                    <div class="icon">📷</div>
+                    <div class="info">
+                        <h4>Камера (компьютерное зрение)</h4>
+                        <p>Классификация поведения животных (RES, RUS, REL, FEP, MOV, LCK, ATT, DEF, DRN, URI)</p>
+                        <span class="status-badge active">✅ Активна</span>
+                    </div>
+                </div>
+                <div class="equipment-card">
+                    <div class="icon">🌡️</div>
+                    <div class="info">
+                        <h4>Тепловизор</h4>
+                        <p>Измерение температуры тела животных</p>
+                        <span class="status-badge active">✅ Активен</span>
+                    </div>
+                </div>
+                <div class="equipment-card">
+                    <div class="icon">🎤</div>
+                    <div class="info">
+                        <h4>Микрофон</h4>
+                        <p>Анализ звуков (кашель, стресс-звуки)</p>
+                        <span class="status-badge active">✅ Активен</span>
+                    </div>
+                </div>
+                <div class="equipment-card">
+                    <div class="icon">⚖️</div>
+                    <div class="info">
+                        <h4>Весы-платформы у поилки</h4>
+                        <p>Динамика веса животных</p>
+                        <span class="status-badge active">✅ Активны</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Дополнительное оборудование (в планах) -->
+        <div class="notebook-page">
+            <h3 style="font-size: 16px; color: var(--primary); margin-bottom: 8px;">⏳ Дополнительное оборудование (в планах)</h3>
+            <div class="equipment-grid">
+                <div class="equipment-card">
+                    <div class="icon">🧪</div>
+                    <div class="info">
+                        <h4>Датчик pH в рубце</h4>
+                        <p>Мониторинг здоровья ЖКТ</p>
+                        <span class="status-badge plan">⏳ В планах</span>
+                    </div>
+                </div>
+                <div class="equipment-card">
+                    <div class="icon">🥛</div>
+                    <div class="info">
+                        <h4>Анализатор молока</h4>
+                        <p>Жирность, белок, соматические клетки (мастит)</p>
+                        <span class="status-badge plan">⏳ В планах</span>
+                    </div>
+                </div>
+                <div class="equipment-card">
+                    <div class="icon">💨</div>
+                    <div class="info">
+                        <h4>Датчик CO₂/аммиака</h4>
+                        <p>Контроль качества воздуха в коровнике</p>
+                        <span class="status-badge plan">⏳ В планах</span>
+                    </div>
+                </div>
+                <div class="equipment-card">
+                    <div class="icon">📍</div>
+                    <div class="info">
+                        <h4>GPS-трекеры</h4>
+                        <p>Отслеживание перемещений по пастбищу</p>
+                        <span class="status-badge plan">⏳ В планах</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Статистика подключения -->
+        <div class="notebook-page" style="background: #faf8f2;">
+            <h3 style="font-size: 16px; color: var(--primary); margin-bottom: 8px;">📊 Статистика подключения</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-top: 8px;">
+                <div style="background: white; padding: 12px; border-radius: 8px; text-align: center; border: 1px solid #e8e0d0;">
+                    <div style="font-size: 24px; font-weight: 700; color: var(--success);">4</div>
+                    <div style="font-size: 12px; color: #64748b;">Активных устройств</div>
+                </div>
+                <div style="background: white; padding: 12px; border-radius: 8px; text-align: center; border: 1px solid #e8e0d0;">
+                    <div style="font-size: 24px; font-weight: 700; color: var(--warning);">4</div>
+                    <div style="font-size: 12px; color: #64748b;">В планах</div>
+                </div>
+                <div style="background: white; padding: 12px; border-radius: 8px; text-align: center; border: 1px solid #e8e0d0;">
+                    <div style="font-size: 24px; font-weight: 700; color: var(--primary);">8</div>
+                    <div style="font-size: 12px; color: #64748b;">Всего</div>
+                </div>
+            </div>
+        </div>
     </div>
+
     <div class="fence-footer"></div>
+</div>
+
 </body>
 </html>
