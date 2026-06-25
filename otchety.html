@@ -5,6 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ФермAi — Отчёты</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Стили для таблицы с отчётами (без наложения полосок) */
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            min-width: 600px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .report-table th {
+            background: #f8fafc;
+            font-weight: 600;
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .report-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: left;
+        }
+        .report-table tr:last-child td {
+            border-bottom: none;
+        }
+        .report-table tr:hover {
+            background: #f8fafc;
+        }
+
+        /* Стиль для карточки с таблицей — убираем тетрадные линии */
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border: 1px solid #e8e0d0;
+            margin-bottom: 14px;
+            position: relative;
+        }
+        .table-card h3 {
+            font-size: 16px;
+            color: #475569;
+            margin-bottom: 12px;
+        }
+    </style>
 </head>
 <body>
 
@@ -22,7 +68,7 @@
     <div style="max-width: 1200px; margin: 0 auto;">
 
         <!-- ===== БЛОК 1: СВОДКА ===== -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 20px;">
             <div style="background: white; padding: 14px; border-radius: 12px; text-align: center; border: 1px solid var(--border);">
                 <div style="font-size: 28px; font-weight: 700; color: var(--primary);">4</div>
                 <div style="font-size: 13px; color: #64748b;">Активных животных</div>
@@ -65,7 +111,7 @@
                         <span style="display: inline-block; width: 12px; height: 12px; background: var(--danger); border-radius: 50%;"></span>
                         <span style="font-size: 14px;">Требуют осмотра — 1 (10%)</span>
                     </div>
-                    <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
                         <span style="display: inline-block; width: 12px; height: 12px; background: #94a3b8; border-radius: 50%;"></span>
                         <span style="font-size: 14px;">В калибровке — 6 (60%)</span>
                     </div>
@@ -176,26 +222,28 @@
             </div>
         </div>
 
-        <!-- ===== БЛОК 9: ТАБЛИЦА ПО ЖИВОТНЫМ ===== -->
-        <div class="notebook-page" style="overflow-x: auto;">
-            <h3 style="font-size: 16px; color: #475569;">📋 Детальный отчёт по животным</h3>
-            <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; min-width: 600px;">
-                <thead>
-                    <tr style="background: #f1f5f9; border-bottom: 2px solid var(--border);">
-                        <th style="padding: 8px 10px; text-align: left;">ID</th>
-                        <th style="padding: 8px 10px; text-align: left;">Имя</th>
-                        <th style="padding: 8px 10px; text-align: left;">Статус</th>
-                        <th style="padding: 8px 10px; text-align: left;">Темп.</th>
-                        <th style="padding: 8px 10px; text-align: left;">Активность</th>
-                        <th style="padding: 8px 10px; text-align: left;">Аппетит</th>
-                        <th style="padding: 8px 10px; text-align: left;">Руминация</th>
-                        <th style="padding: 8px 10px; text-align: left;">След. прививка</th>
-                    </tr>
-                </thead>
-                <tbody id="reportTable">
-                    <!-- Заполняется из JS -->
-                </tbody>
-            </table>
+        <!-- ===== БЛОК 9: ТАБЛИЦА ПО ЖИВОТНЫМ (с белым фоном) ===== -->
+        <div class="table-card">
+            <h3>📋 Детальный отчёт по животным</h3>
+            <div style="overflow-x: auto;">
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Имя</th>
+                            <th>Статус</th>
+                            <th>Темп.</th>
+                            <th>Активность</th>
+                            <th>Аппетит</th>
+                            <th>Руминация</th>
+                            <th>След. прививка</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reportTable">
+                        <!-- Заполняется из JS -->
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     </div>
@@ -225,209 +273,170 @@
         const nextVac = animal.vaccinations ? animal.vaccinations.find(v => v.next) : null;
 
         const row = document.createElement('tr');
-        row.style.borderBottom = '1px solid #e2e8f0';
         row.innerHTML = `
-            <td style="padding: 8px 10px; font-weight: 600;">${id}</td>
-            <td style="padding: 8px 10px;">${animal.emoji} ${animal.name}</td>
-            <td style="padding: 8px 10px; color: ${s.color}; font-weight: 600;">${s.text}</td>
-            <td style="padding: 8px 10px;">${animal.temp}</td>
-            <td style="padding: 8px 10px;">${animal.activity}</td>
-            <td style="padding: 8px 10px;">${animal.appetite}</td>
-            <td style="padding: 8px 10px;">${animal.rumination}</td>
-            <td style="padding: 8px 10px;">${nextVac ? nextVac.date : '—'}</td>
+            <td style="font-weight: 600;">${id}</td>
+            <td>${animal.emoji} ${animal.name}</td>
+            <td style="color: ${s.color}; font-weight: 600;">${s.text}</td>
+            <td>${animal.temp}</td>
+            <td>${animal.activity}</td>
+            <td>${animal.appetite}</td>
+            <td>${animal.rumination}</td>
+            <td>${nextVac ? nextVac.date : '—'}</td>
         `;
         tableBody.appendChild(row);
     });
 
     // ============================================================
-    // 2. КРУГОВАЯ ДИАГРАММА — СТАТУС ЗДОРОВЬЯ
+    // 2. ГРАФИКИ (Chart.js)
     // ============================================================
-    const statusCtx = document.getElementById('statusChart').getContext('2d');
-    new Chart(statusCtx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Здоровы', 'В зоне риска', 'Требуют осмотра', 'В калибровке'],
-            datasets: [{
-                data: [2, 1, 1, 6],
-                backgroundColor: ['#388e3c', '#f57c00', '#d32f2f', '#94a3b8'],
-                borderWidth: 2,
-                borderColor: '#ffffff'
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { display: false }
-            }
-        }
-    });
+    const chartScript = document.createElement('script');
+    chartScript.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js';
+    chartScript.onload = function() {
 
-    // ============================================================
-    // 3. СТОЛБЧАТАЯ ДИАГРАММА — АКТИВНОСТЬ
-    // ============================================================
-    const activityCtx = document.getElementById('activityChart').getContext('2d');
-
-    // Считаем среднюю активность из graphData
-    const avgActivity = {
-        '1': Math.round(animals['1'].graphData.reduce((a,b) => a+b, 0) / animals['1'].graphData.length),
-        '2': Math.round(animals['2'].graphData.reduce((a,b) => a+b, 0) / animals['2'].graphData.length),
-        '3': Math.round(animals['3'].graphData.reduce((a,b) => a+b, 0) / animals['3'].graphData.length),
-        '4': Math.round(animals['4'].graphData.reduce((a,b) => a+b, 0) / animals['4'].graphData.length)
-    };
-
-    new Chart(activityCtx, {
-        type: 'bar',
-        data: {
-            labels: ['Корова №1', 'Коза №2', 'Лошадь №3', 'Корова №4'],
-            datasets: [{
-                label: 'Средняя активность за неделю',
-                data: [avgActivity['1'], avgActivity['2'], avgActivity['3'], avgActivity['4']],
-                backgroundColor: ['#ef4444', '#eab308', '#22c55e', '#3b82f6'],
-                borderRadius: 6,
-                borderSkipped: false
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { display: false }
+        // ---- 2.1 КРУГОВАЯ — СТАТУС ЗДОРОВЬЯ ----
+        new Chart(document.getElementById('statusChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Здоровы', 'В зоне риска', 'Требуют осмотра', 'В калибровке'],
+                datasets: [{
+                    data: [2, 1, 1, 6],
+                    backgroundColor: ['#388e3c', '#f57c00', '#d32f2f', '#94a3b8'],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
             },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 100,
-                    ticks: { font: { size: 10 } }
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // ---- 2.2 СТОЛБЧАТАЯ — АКТИВНОСТЬ ----
+        const avgActivity = {
+            '1': Math.round(animals['1'].graphData.reduce((a,b) => a+b, 0) / animals['1'].graphData.length),
+            '2': Math.round(animals['2'].graphData.reduce((a,b) => a+b, 0) / animals['2'].graphData.length),
+            '3': Math.round(animals['3'].graphData.reduce((a,b) => a+b, 0) / animals['3'].graphData.length),
+            '4': Math.round(animals['4'].graphData.reduce((a,b) => a+b, 0) / animals['4'].graphData.length)
+        };
+
+        new Chart(document.getElementById('activityChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Корова №1', 'Коза №2', 'Лошадь №3', 'Корова №4'],
+                datasets: [{
+                    label: 'Средняя активность за неделю',
+                    data: [avgActivity['1'], avgActivity['2'], avgActivity['3'], avgActivity['4']],
+                    backgroundColor: ['#ef4444', '#eab308', '#22c55e', '#3b82f6'],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, max: 100, ticks: { font: { size: 10 } } }
                 }
             }
-        }
-    });
+        });
 
-    // ============================================================
-    // 4. ГРАФИК — ТЕМПЕРАТУРА КОРОВЫ №1
-    // ============================================================
-    const tempCtx = document.getElementById('tempChart').getContext('2d');
-    const tempData = [38.6, 38.8, 39.0, 39.3, 39.5, 39.8, 39.7];
-    const days = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
-
-    new Chart(tempCtx, {
-        type: 'line',
-        data: {
-            labels: days,
-            datasets: [{
-                label: 'Температура (°C)',
-                data: tempData,
-                borderColor: '#ef4444',
-                backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                fill: true,
-                tension: 0.3,
-                pointBackgroundColor: '#ef4444',
-                pointRadius: 5
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { display: false }
-            },
-            scales: {
-                y: {
-                    min: 38.0,
-                    max: 40.5,
-                    ticks: { font: { size: 10 } }
-                }
-            }
-        }
-    });
-
-    // ============================================================
-    // 5. КРУГОВАЯ — ПОВЕДЕНЧЕСКИЕ АКТИВНОСТИ
-    // ============================================================
-    const behaviorCtx = document.getElementById('behaviorChart').getContext('2d');
-    new Chart(behaviorCtx, {
-        type: 'doughnut',
-        data: {
-            labels: ['RES', 'RUS', 'REL', 'FEP', 'MOV', 'LCK', 'DRN', 'Прочее'],
-            datasets: [{
-                data: [28, 22, 18, 15, 4, 3, 4, 6],
-                backgroundColor: ['#4caf50', '#2196f3', '#ff9800', '#9c27b0', '#00bcd4', '#e91e63', '#795548', '#9e9e9e'],
-                borderWidth: 2,
-                borderColor: '#ffffff'
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { display: false }
-            }
-        }
-    });
-
-    // ============================================================
-    // 6. ДИНАМИКА ВЕСА (4 ЖИВОТНЫХ)
-    // ============================================================
-    const weightCtx = document.getElementById('weightChart').getContext('2d');
-
-    // Данные веса по дням для 4 животных
-    const weightData = {
-        cow1: [682, 681, 680, 680, 679, 678, 678],
-        goat2: [55.2, 55.1, 55.0, 55.0, 54.9, 54.8, 54.7],
-        horse3: [519, 520, 520, 521, 521, 522, 522],
-        cow4: [599, 599.5, 600, 600, 600.5, 601, 601]
-    };
-
-    new Chart(weightCtx, {
-        type: 'line',
-        data: {
-            labels: days,
-            datasets: [
-                {
-                    label: 'Корова №1',
-                    data: weightData.cow1,
+        // ---- 2.3 ГРАФИК — ТЕМПЕРАТУРА ----
+        new Chart(document.getElementById('tempChart'), {
+            type: 'line',
+            data: {
+                labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+                datasets: [{
+                    label: 'Температура (°C)',
+                    data: [38.6, 38.8, 39.0, 39.3, 39.5, 39.8, 39.7],
                     borderColor: '#ef4444',
+                    backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                    fill: true,
                     tension: 0.3,
-                    pointRadius: 3
-                },
-                {
-                    label: 'Коза №2',
-                    data: weightData.goat2,
-                    borderColor: '#eab308',
-                    tension: 0.3,
-                    pointRadius: 3
-                },
-                {
-                    label: 'Лошадь №3',
-                    data: weightData.horse3,
-                    borderColor: '#22c55e',
-                    tension: 0.3,
-                    pointRadius: 3
-                },
-                {
-                    label: 'Корова №4',
-                    data: weightData.cow4,
-                    borderColor: '#3b82f6',
-                    tension: 0.3,
-                    pointRadius: 3
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: { font: { size: 10 }, boxWidth: 12 }
-                }
+                    pointBackgroundColor: '#ef4444',
+                    pointRadius: 5
+                }]
             },
-            scales: {
-                y: {
-                    ticks: { font: { size: 10 } }
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { min: 38.0, max: 40.5, ticks: { font: { size: 10 } } }
                 }
             }
-        }
-    });
+        });
+
+        // ---- 2.4 КРУГОВАЯ — ПОВЕДЕНЧЕСКИЕ АКТИВНОСТИ ----
+        new Chart(document.getElementById('behaviorChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['RES', 'RUS', 'REL', 'FEP', 'MOV', 'LCK', 'DRN', 'Прочее'],
+                datasets: [{
+                    data: [28, 22, 18, 15, 4, 3, 4, 6],
+                    backgroundColor: ['#4caf50', '#2196f3', '#ff9800', '#9c27b0', '#00bcd4', '#e91e63', '#795548', '#9e9e9e'],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // ---- 2.5 ДИНАМИКА ВЕСА ----
+        new Chart(document.getElementById('weightChart'), {
+            type: 'line',
+            data: {
+                labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+                datasets: [
+                    {
+                        label: 'Корова №1',
+                        data: [682, 681, 680, 680, 679, 678, 678],
+                        borderColor: '#ef4444',
+                        tension: 0.3,
+                        pointRadius: 3
+                    },
+                    {
+                        label: 'Коза №2',
+                        data: [55.2, 55.1, 55.0, 55.0, 54.9, 54.8, 54.7],
+                        borderColor: '#eab308',
+                        tension: 0.3,
+                        pointRadius: 3
+                    },
+                    {
+                        label: 'Лошадь №3',
+                        data: [519, 520, 520, 521, 521, 522, 522],
+                        borderColor: '#22c55e',
+                        tension: 0.3,
+                        pointRadius: 3
+                    },
+                    {
+                        label: 'Корова №4',
+                        data: [599, 599.5, 600, 600, 600.5, 601, 601],
+                        borderColor: '#3b82f6',
+                        tension: 0.3,
+                        pointRadius: 3
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { size: 10 }, boxWidth: 12 }
+                    }
+                },
+                scales: {
+                    y: { ticks: { font: { size: 10 } } }
+                }
+            }
+        });
+
+    };
+    document.head.appendChild(chartScript);
 
     // ============================================================
-    // 7. ЗАБОРЧИК
+    // 3. ЗАБОРЧИК
     // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
         const fence = document.querySelector('.fence-footer');
@@ -447,9 +456,6 @@
         fence.appendChild(container);
     });
 </script>
-
-<!-- Chart.js для диаграмм -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
 </body>
 </html>

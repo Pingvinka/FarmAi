@@ -19,7 +19,7 @@
         </div>
     </header>
 
-    <!-- СТАТИСТИКА (обновлённые данные) -->
+    <!-- СТАТИСТИКА -->
     <div class="stats-grid">
         <div class="stat-card healthy">
             <div>
@@ -43,6 +43,31 @@
             <span style="font-size: 24px;">⚠️</span>
         </div>
     </div>
+    <div style="text-align: center; margin-top: -10px; margin-bottom: 16px; font-size: 13px; color: #64748b;">
+        +6 животных в процессе подключения (калибровка датчиков)
+    </div>
+
+    <!-- ГРУППЫ СТАДА (обновлённые) -->
+    <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
+        <h3 style="font-size: 16px; color: #475569;">Группы стада</h3>
+        <div style="margin-top: 12px;">
+            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border);">
+                <span>🐄 КРС</span><strong>4</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border);">
+                <span>🐐 Козы</span><strong>2</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border);">
+                <span>🐴 Лошади</span><strong>2</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border);">
+                <span>🐖 Свиньи</span><strong>1</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border);">
+                <span>🐑 Овцы</span><strong>1</strong>
+            </div>
+        </div>
+    </div>
 
     <!-- УВЕДОМЛЕНИЕ + КНОПКА -->
     <div style="background: #ffebee; border-left: 5px solid var(--danger); padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px;">
@@ -53,25 +78,7 @@
         <a href="karta.html?id=1" class="btn btn-primary">Открыть карточку</a>
     </div>
 
-    <!-- ГРУППЫ И ГРАФИК -->
-    <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px; margin-bottom: 20px;">
-        <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
-            <h3 style="font-size: 16px; color: #475569;">Группы стада</h3>
-            <div style="margin-top: 12px;">
-                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border);">
-                    <span>Дойные</span><strong>2</strong>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border);">
-                    <span>Сухостой</span><strong>1</strong>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border);">
-                    <span>Козы</span><strong>1</strong>
-                </div>
-                <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border);">
-                    <span>Лошади</span><strong>1</strong>
-                </div>
-            </div>
-        </div>
+    <!-- ГРАФИК -->
         <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
             <h3 style="font-size: 16px; color: #475569;">📈 Активность стада (неделя)</h3>
             <canvas id="dashboardChart" style="width: 100%; height: 150px; margin-top: 8px;"></canvas>
