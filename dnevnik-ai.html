@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> ФермAi — Дневник стада (ИИ)</title>
+    <title>ФермAi — Дневник стада (ИИ)</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -19,7 +19,6 @@
         </div>
     </header>
 
-    <!-- ФИЛЬТРЫ (те же, что в dnevnik.html) -->
     <div class="filters" id="filters">
         <div class="filter-group">
             <span class="label">🐾 Вид:</span>
@@ -60,12 +59,18 @@
         let filteredIds = order.filter(id => {
             const animal = animals[id];
             if (!animal) return false;
-            if (currentSpecies !== 'all' && animal.type !== currentSpecies && !animal.empty) return false;
-            if (currentSpecies !== 'all' && animal.empty) {
-                const emptySpecies = { '5': 'cow', '6': 'goat', '7': 'horse', '8': 'cow', '9': 'pig', '10': 'sheep' };
-                if (emptySpecies[id] !== currentSpecies) return false;
+
+            if (currentSpecies === 'all') return true;
+
+            if (animal.empty) {
+                const emptySpecies = {
+                    '5': 'cow', '6': 'goat', '7': 'horse',
+                    '8': 'cow', '9': 'pig', '10': 'sheep'
+                };
+                return emptySpecies[id] === currentSpecies;
             }
-            return true;
+
+            return animal.type === currentSpecies;
         });
 
         if (currentStatus !== 'all') {
@@ -76,6 +81,11 @@
             });
         }
 
+        if (filteredIds.length === 0) {
+            grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:#94a3b8;">Нет животных, соответствующих фильтру</div>`;
+            return;
+        }
+
         filteredIds.forEach(id => {
             const animal = animals[id];
             if (!animal) return;
@@ -84,12 +94,21 @@
             card.className = `diary-card ${animal.empty ? 'disabled' : ''}`;
 
             if (animal.empty) {
+                const speciesEmoji = {
+                    '5': '🐄', '6': '🐐', '7': '🐴', '8': '🐄', '9': '🐖', '10': '🐑'
+                };
+                const speciesName = {
+                    '5': 'КРС', '6': 'Козы', '7': 'Лошади', '8': 'КРС', '9': 'Свиньи', '10': 'Овцы'
+                };
                 card.innerHTML = `
                     <div class="top">
-                        <span class="id">${animal.emoji} №${id} <span class="lock-icon">🔒</span></span>
+                        <span class="id">${speciesEmoji[id] || '🐾'} №${id} <span class="lock-icon">🔒</span></span>
                         <span class="status">⏳ В разработке</span>
                     </div>
-                    <div class="info"><span>${animal.breed}</span><span>?</span></div>
+                    <div class="info">
+                        <span>${speciesName[id] || 'Животное'}</span>
+                        <span>?</span>
+                    </div>
                     <div class="extra" style="color:#94a3b8;">Данные будут доступны позже</div>
                 `;
                 card.onclick = () => {
@@ -116,8 +135,8 @@
                         <span>${animal.age}</span>
                     </div>
                     <div class="extra" style="color:${animal.status === 'critical' ? '#ef4444' : animal.status === 'risk' ? '#eab308' : '#22c55e'}">
-                        ${animal.status === 'critical' ? `Темп. ${animal.temp} · ${animal.forecast?.[0]?.text?.slice(0, 30) || 'Требует осмотра'}` :
-                         animal.status === 'risk' ? animal.forecast?.[0]?.text?.slice(0, 35) || 'Требуется наблюдение' :
+                        ${animal.status === 'critical' ? `Темп. ${animal.temp} · ${animal.forecast?.[0]?.text?.slice(0, 25) || 'Требует осмотра'}` :
+                         animal.status === 'risk' ? animal.forecast?.[0]?.text?.slice(0, 30) || 'Требуется наблюдение' :
                          'Активность в норме'}
                     </div>
                 `;
@@ -133,7 +152,7 @@
 
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
-            const isSpecies = ['all', 'cow', 'goat', 'horse'].includes(btn.dataset.filter);
+            const isSpecies = ['all', 'cow', 'goat', 'horse', 'pig', 'sheep'].includes(btn.dataset.filter);
             const isStatus = ['healthy', 'risk', 'critical'].includes(btn.dataset.filter);
 
             if (isSpecies) {
@@ -144,10 +163,6 @@
                 document.querySelectorAll('.filter-status-group button').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 currentStatus = btn.dataset.filter;
-            } else if (btn.dataset.filter === 'all') {
-                document.querySelectorAll('.filter-group button').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentSpecies = 'all';
             }
 
             renderDiary();

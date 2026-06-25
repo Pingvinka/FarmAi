@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> ФермAi — Дневник стада</title>
+    <title>ФермAi — Дневник стада</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
 <div class="app">
     <header class="header">
-        <div class="logo"> ФермAi <span>Beta</span></div>
+        <div class="logo">ФермAi <span>Beta</span></div>
         <div class="header-right">
             <a href="dashboard.html">Главная</a>
             <a href="dnevnik.html" class="active">Дневник стада</a>
@@ -49,20 +49,6 @@
 <script src="js/animals.js"></script>
 <script>
     // ============================================================
-    // ОТЛАДКА: проверяем, загрузился ли animals
-    // ============================================================
-    console.log('animals загружен?', typeof animals !== 'undefined');
-
-    if (typeof animals === 'undefined') {
-        document.getElementById('animalGrid').innerHTML = `
-            <div style="grid-column:1/-1;text-align:center;padding:40px;color:#ef4444;">
-                ❌ Ошибка: база данных не загружена. Проверьте файл js/animals.js
-            </div>
-        `;
-        throw new Error('animals не загружен');
-    }
-
-    // ============================================================
     // ОСНОВНАЯ ЛОГИКА
     // ============================================================
     const grid = document.getElementById('animalGrid');
@@ -75,27 +61,24 @@
     function renderDiary() {
         grid.innerHTML = '';
 
-        console.log('Фильтр: вид=' + currentSpecies + ', статус=' + currentStatus);
-
         // Фильтрация по виду
         let filteredIds = order.filter(id => {
             const animal = animals[id];
-            if (!animal) {
-                console.warn('Животное с ID ' + id + ' не найдено');
-                return false;
-            }
+            if (!animal) return false;
 
             if (currentSpecies === 'all') return true;
 
-            // Для пустых карточек проверяем их type
             if (animal.empty) {
-                return animal.type === currentSpecies;
+                // Для пустых карточек определяем тип по id
+                const emptySpecies = {
+                    '5': 'cow', '6': 'goat', '7': 'horse',
+                    '8': 'cow', '9': 'pig', '10': 'sheep'
+                };
+                return emptySpecies[id] === currentSpecies;
             }
 
             return animal.type === currentSpecies;
         });
-
-        console.log('После фильтра по виду:', filteredIds);
 
         // Фильтрация по статусу
         if (currentStatus !== 'all') {
@@ -105,8 +88,6 @@
                 return animal.status === currentStatus;
             });
         }
-
-        console.log('После фильтра по статусу:', filteredIds);
 
         if (filteredIds.length === 0) {
             grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:#94a3b8;">Нет животных, соответствующих фильтру</div>`;
@@ -122,13 +103,20 @@
             card.className = `diary-card ${animal.empty ? 'disabled' : ''}`;
 
             if (animal.empty) {
+                // Показываем вид животного для пустой карточки
+                const speciesEmoji = {
+                    '5': '🐄', '6': '🐐', '7': '🐴', '8': '🐄', '9': '🐖', '10': '🐑'
+                };
+                const speciesName = {
+                    '5': 'КРС', '6': 'Козы', '7': 'Лошади', '8': 'КРС', '9': 'Свиньи', '10': 'Овцы'
+                };
                 card.innerHTML = `
                     <div class="top">
-                        <span class="id">${animal.emoji} №${id} <span class="lock-icon">🔒</span></span>
+                        <span class="id">${speciesEmoji[id] || '🐾'} №${id} <span class="lock-icon">🔒</span></span>
                         <span class="status">⏳ В разработке</span>
                     </div>
                     <div class="info">
-                        <span>${animal.breed}</span>
+                        <span>${speciesName[id] || 'Животное'}</span>
                         <span>?</span>
                     </div>
                     <div class="extra" style="color:#94a3b8;">Данные будут доступны позже</div>
@@ -176,7 +164,7 @@
 
     filterButtons.forEach(btn => {
         btn.addEventListener('click', () => {
-            const isSpecies = ['all', 'cow', 'goat', 'horse'].includes(btn.dataset.filter);
+            const isSpecies = ['all', 'cow', 'goat', 'horse', 'pig', 'sheep'].includes(btn.dataset.filter);
             const isStatus = ['healthy', 'risk', 'critical'].includes(btn.dataset.filter);
 
             if (isSpecies) {
