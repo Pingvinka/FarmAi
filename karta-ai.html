@@ -382,7 +382,7 @@
             if (data.reply) {
                 addMessage(data.reply, 'bot');
             } else {
-                addMessage('⚠️ Ошибка ИИ: не удалось получить ответ.', 'bot');
+                addMessage('⚠️ Ошибка ИИ: не удалось получить ответ. Повторите запрос, пожалуйста', 'bot');
             }
         } catch (err) {
             hideTyping();
