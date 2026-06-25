@@ -749,3 +749,121 @@ body {
     /* Чат — ещё больше отступ на маленьких экранах */
     .chat-box { margin-bottom: 40px; }
 }
+
+/* ============================================================
+   ФИКСЫ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ
+   ============================================================ */
+
+/* Увеличиваем высоту графиков на мобильных */
+@media (max-width: 768px) {
+    /* Общие графики */
+    .graph-wrap {
+        height: 180px !important;
+    }
+    .graph-wrap canvas {
+        height: 180px !important;
+    }
+
+    /* Графики в отчётах */
+    .notebook-page canvas {
+        height: 200px !important;
+    }
+
+    /* Графики веса и удоя */
+    .weight-chart-grid .chart-box canvas {
+        height: 140px !important;
+    }
+    .yield-grid .yield-box canvas {
+        height: 130px !important;
+    }
+
+    /* Дополнительный отступ снизу для страниц с чатом */
+    .app {
+        padding-bottom: 100px;
+    }
+
+    /* Увеличиваем отступ для чата на страницах с ИИ */
+    .chat-box {
+        margin-bottom: 30px;
+    }
+    
+    /* Специально для страниц с ИИ-чатом внизу */
+    .ai-chat-container {
+        margin-bottom: 40px;
+    }
+
+    /* Круговые диаграммы */
+    .chart-col canvas {
+        height: 200px !important;
+    }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 480px) {
+    .notebook-page canvas {
+        height: 180px !important;
+    }
+    .weight-chart-grid .chart-box canvas {
+        height: 120px !important;
+    }
+    .yield-grid .yield-box canvas {
+        height: 110px !important;
+    }
+    .app {
+        padding-bottom: 120px;
+    }
+}
+
+/* ============================================================
+   ФИКСЫ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ
+   ============================================================ */
+
+/* Увеличиваем высоту графиков на мобильных */
+@media (max-width: 768px) {
+    /* Общие графики */
+    .graph-wrap {
+        height: 180px !important;
+    }
+    .graph-wrap canvas {
+        height: 180px !important;
+    }
+
+    /* Графики в отчётах */
+    .notebook-page canvas {
+        height: 200px !important;
+    }
+
+    /* Графики веса и удоя */
+    .weight-chart-grid .chart-box canvas {
+        height: 140px !important;
+    }
+    .yield-grid .yield-box canvas {
+        height: 130px !important;
+    }
+
+    /* Увеличиваем отступ снизу, чтобы чат не перекрывался заборчиком */
+    body {
+        padding-bottom: 100px !important;
+    }
+
+    /* Круговые диаграммы */
+    .chart-col canvas {
+        height: 200px !important;
+    }
+}
+
+/* Для очень маленьких экранов */
+@media (max-width: 480px) {
+    .notebook-page canvas {
+        height: 180px !important;
+    }
+    .weight-chart-grid .chart-box canvas {
+        height: 120px !important;
+    }
+    .yield-grid .yield-box canvas {
+        height: 110px !important;
+    }
+    body {
+        padding-bottom: 120px !important;
+    }
+}
